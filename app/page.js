@@ -28,14 +28,14 @@ function getCountdownState() {
     const totalMs = endTime - now;
     return {
       totalMs,
-      status: "EPOCH '26 is live now.",
+      status: "GENESIS '26 is live now.",
       phaseLabel: "Countdown to Finish",
     };
   }
 
   return {
     totalMs: 0,
-    status: "EPOCH '26 has concluded. Thank you for participating.",
+    status: "GENESIS '26 has concluded. Thank you for participating.",
     phaseLabel: "Event Complete",
   };
 }
@@ -84,7 +84,7 @@ const stats = [
 
 const faqItems = [
   {
-    question: "Who can participate in EPOCH '26?",
+    question: "Who can participate in GENESIS '26?",
     answer:
       "Teams of 2 to 4 can participate. IEEE membership is optional, but members get a ₹200 discount in Round 1.",
   },
@@ -262,7 +262,7 @@ export default function HomePage() {
 
       <header className="site-header">
         <a className="brand" href="#hero">
-          EPOCH '26
+          GENESIS '26
         </a>
         <nav className="main-nav" aria-label="Primary">
           {navItems.map((item) => (
@@ -315,7 +315,7 @@ export default function HomePage() {
         <motion.section id="hero" className="section hero" {...sectionMotion}>
           <p className="hero-kicker">Grand National Hackathon • Vemana IT Bengaluru</p>
           <motion.h1 {...itemMotion(0, 0.4)}>
-            EPOCH <span>'26</span>
+            GENESIS <span>'26</span>
           </motion.h1>
           <p className="tagline">Time starts here.</p>
 
@@ -358,7 +358,7 @@ export default function HomePage() {
                 Engineering <span>Impact.</span>
               </h2>
               <p>
-                EPOCH '26 is where focused builders design meaningful products in
+                GENESIS '26 is where focused builders design meaningful products in
                 a high-intensity 24-hour sprint. From midnight breakthroughs to
                 sunrise demos, every team works under pressure to ship practical,
                 scalable innovation.
@@ -496,7 +496,7 @@ export default function HomePage() {
             </p>
             <h3 className="numeric prize-amount">₹3,00,000</h3>
             <ul className="prize-notes">
-              <li>Cloud Credits</li>
+              <li>Cash Prize for Winners</li>
               <li>Incubation Opportunities</li>
               <li>Mentorship Access</li>
             </ul>
@@ -559,7 +559,7 @@ export default function HomePage() {
             <div className="logo-chip">IEEE</div>
             <div className="logo-chip">Vemana IT</div>
           </div>
-          <h3>EPOCH '26</h3>
+          <h3>GENESIS '26</h3>
           <p className="venue-highlight footer-venue">Vemana Institute of Technology, Bengaluru</p>
         </motion.div>
         <motion.div className="footer-col" {...itemMotion(1, 0.15)}>
@@ -571,7 +571,7 @@ export default function HomePage() {
         </motion.div>
         <motion.div className="footer-col" {...itemMotion(2, 0.15)}>
           <h4>Contact</h4>
-          <p>Email: epoch26@vemanait.ac.in</p>
+          <p>Email: GENESIS26@vemanait.ac.in</p>
           <p>Phone: +91 98765 43210</p>
           <p>IEEE Student Branch, Vemana Institute of Technology, Bengaluru</p>
         </motion.div>
@@ -603,7 +603,7 @@ export default function HomePage() {
             </a>
           </div>
         </motion.div>
-        <p className="copyright">© {year} EPOCH '26 | IEEE Vemana Institute of Technology, Bengaluru</p>
+        <p className="copyright">© {year} GENESIS '26 | IEEE Vemana Institute of Technology, Bengaluru</p>
       </footer>
     </>
   );

@@ -1,14 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Check,
-  Loader2,
-  CheckCircle2,
-} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,656 +25,806 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
 
-const steps = [
-  { id: "team", title: "Team Info" },
-  { id: "leader", title: "Team Leader" },
-  { id: "college", title: "College Info" },
-  { id: "members", title: "Team Members" },
-  { id: "idea", title: "Idea Submission" },
-  { id: "review", title: "Review" },
-];
+type TeamSize = "2" | "3" | "4";
 
-interface MemberData {
+type FormStep = {
+  id: string;
+  name: string;
+  label: string;
+};
+
+type MemberInfo = {
   fullName: string;
   email: string;
   usn: string;
   ieeeId: string;
-  year: string;
-}
+  yearOfStudy: string;
+};
 
-interface FormData {
+type RegistrationData = {
   teamName: string;
   track: string;
-  teamSize: string;
+  teamSize: TeamSize;
   leaderName: string;
   leaderEmail: string;
   leaderMobile: string;
   leaderIeeeId: string;
-  college: string;
+  collegeName: string;
   department: string;
-  year: string;
-  usn: string;
-  members: MemberData[];
+  collegeYear: string;
+  collegeId: string;
+  members: MemberInfo[];
   ideaTitle: string;
   ideaDescription: string;
   pptLink: string;
-  checkIeee: boolean;
-  checkAccurate: boolean;
-  checkTerms: boolean;
-}
+  confirmIeee: boolean;
+  confirmAccurate: boolean;
+  confirmTerms: boolean;
+};
 
-const emptyMember = (): MemberData => ({
+type ErrorMap = Record<string, boolean>;
+
+const steps: FormStep[] = [
+  { id: "team-info", name: "Team Info", label: "Team" },
+  { id: "leader", name: "Team Leader", label: "Leader" },
+  { id: "college", name: "College Info", label: "College" },
+  { id: "members", name: "Team Members", label: "Members" },
+  { id: "idea", name: "Idea Submission", label: "Idea" },
+  { id: "review", name: "Review & Submit", label: "Review" },
+];
+
+const tracks = [
+  { value: "ai-social-good", label: "AI for Social Good" },
+  { value: "sustainability-goals", label: "Sustainability Goals" },
+  { value: "cybersecurity-blockchain", label: "Cybersecurity & Blockchain" },
+];
+
+const yearOptions = ["1", "2", "3", "4"];
+
+const emptyMember = (): MemberInfo => ({
   fullName: "",
   email: "",
   usn: "",
   ieeeId: "",
-  year: "",
+  yearOfStudy: "",
 });
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+const stepTitle: Record<number, string> = {
+  0: "Set up your team.",
+  1: "Tell us about your leader.",
+  2: "Where are you from?",
+  3: "Add your teammates.",
+  4: "Pitch your idea.",
+  5: "Review your details.",
 };
 
-const contentVariants = {
-  hidden: { opacity: 0, x: 50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, x: -50, transition: { duration: 0.2 } },
+const stepSubtitle: Record<number, string> = {
+  0: "Start with your core team details and preferred track.",
+  1: "We need one point of contact for communication.",
+  2: "Help us identify your institution details.",
+  3: "Member 2 onward is generated from team size.",
+  4: "Share your idea in a concise and clear format.",
+  5: "Confirm everything before submitting registration.",
 };
 
-const AMBER = "#F59E0B";
+const slideVariants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    x: direction > 0 ? 48 : -48,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    x: direction > 0 ? -48 : 48,
+  }),
+};
 
-const EpochRegistrationForm = () => {
+export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [errors, setErrors] = useState<ErrorMap>({});
+
+  const [formData, setFormData] = useState<RegistrationData>({
     teamName: "",
     track: "",
-    teamSize: "",
+    teamSize: "2",
     leaderName: "",
     leaderEmail: "",
     leaderMobile: "",
     leaderIeeeId: "",
-    college: "",
+    collegeName: "",
     department: "",
-    year: "",
-    usn: "",
-    members: [emptyMember(), emptyMember(), emptyMember()],
+    collegeYear: "",
+    collegeId: "",
+    members: [emptyMember()],
     ideaTitle: "",
     ideaDescription: "",
     pptLink: "",
-    checkIeee: false,
-    checkAccurate: false,
-    checkTerms: false,
+    confirmIeee: false,
+    confirmAccurate: false,
+    confirmTerms: false,
   });
 
-  const updateFormData = (field: keyof FormData, value: string | boolean) => {
+  useEffect(() => {
+    const requiredMembers = Math.max(Number(formData.teamSize) - 1, 1);
+    setFormData((prev) => {
+      const nextMembers = [...prev.members];
+      while (nextMembers.length < requiredMembers) {
+        nextMembers.push(emptyMember());
+      }
+      return {
+        ...prev,
+        members: nextMembers.slice(0, requiredMembers),
+      };
+    });
+  }, [formData.teamSize]);
+
+  const currentStepName = useMemo(() => steps[currentStep].name, [currentStep]);
+
+  const updateField = <K extends keyof RegistrationData>(
+    field: K,
+    value: RegistrationData[K]
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const updateMember = (index: number, field: keyof MemberData, value: string) => {
+  const updateMember = (
+    index: number,
+    field: keyof MemberInfo,
+    value: string
+  ) => {
     setFormData((prev) => {
-      const members = [...prev.members];
-      members[index] = { ...members[index], [field]: value };
-      return { ...prev, members };
+      const nextMembers = [...prev.members];
+      nextMembers[index] = {
+        ...nextMembers[index],
+        [field]: value,
+      };
+      return {
+        ...prev,
+        members: nextMembers,
+      };
     });
   };
 
-  const teamSizeNum = parseInt(formData.teamSize || "2", 10);
-
-  const nextStep = () => {
-    if (currentStep < steps.length - 1) setCurrentStep((prev) => prev + 1);
-  };
-
-  const prevStep = () => {
-    if (currentStep > 0) setCurrentStep((prev) => prev - 1);
-  };
-
-  const handleSubmit = () => {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1500);
-  };
-
-  const isStepValid = () => {
-    switch (currentStep) {
-      case 0:
-        return formData.teamName.trim() !== "" && formData.track !== "" && formData.teamSize !== "";
-      case 1:
-        return (
-          formData.leaderName.trim() !== "" &&
-          formData.leaderEmail.trim() !== "" &&
-          formData.leaderMobile.trim() !== "" &&
-          formData.leaderIeeeId.trim() !== ""
-        );
-      case 2:
-        return (
-          formData.college.trim() !== "" &&
-          formData.department.trim() !== "" &&
-          formData.year !== "" &&
-          formData.usn.trim() !== ""
-        );
-      case 3:
-        return formData.members.slice(0, teamSizeNum - 1).every(
-          (m) => m.fullName && m.email && m.usn && m.ieeeId && m.year
-        );
-      case 4:
-        return formData.ideaTitle.trim() !== "" && formData.ideaDescription.trim() !== "";
-      case 5:
-        return formData.checkIeee && formData.checkAccurate && formData.checkTerms;
-      default:
-        return true;
+  const isValidUrl = (value: string) => {
+    try {
+      const parsed = new URL(value);
+      return parsed.protocol === "http:" || parsed.protocol === "https:";
+    } catch {
+      return false;
     }
   };
 
-  const ReviewRow = ({ label, value }: { label: string; value: string }) => (
-    <div className="flex justify-between py-1 border-b border-white/10 text-sm">
-      <span className="text-gray-400">{label}</span>
-      <span className="text-white font-medium">{value || "-"}</span>
-    </div>
-  );
+  const validateStep = (stepIndex: number): ErrorMap => {
+    const nextErrors: ErrorMap = {};
 
-  const ReviewSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="mb-4">
-      <p className="text-xs font-bold tracking-widest mb-2" style={{ color: AMBER }}>
-        {title}
-      </p>
-      {children}
-    </div>
-  );
+    if (stepIndex === 0) {
+      if (!formData.teamName.trim()) nextErrors.teamName = true;
+      if (!formData.track) nextErrors.track = true;
+      if (!formData.teamSize) nextErrors.teamSize = true;
+    }
+
+    if (stepIndex === 1) {
+      if (!formData.leaderName.trim()) nextErrors.leaderName = true;
+      if (!formData.leaderEmail.trim()) nextErrors.leaderEmail = true;
+      if (!formData.leaderMobile.trim()) nextErrors.leaderMobile = true;
+      if (!formData.leaderIeeeId.trim()) nextErrors.leaderIeeeId = true;
+    }
+
+    if (stepIndex === 2) {
+      if (!formData.collegeName.trim()) nextErrors.collegeName = true;
+      if (!formData.department.trim()) nextErrors.department = true;
+      if (!formData.collegeYear) nextErrors.collegeYear = true;
+      if (!formData.collegeId.trim()) nextErrors.collegeId = true;
+    }
+
+    if (stepIndex === 3) {
+      formData.members.forEach((member, idx) => {
+        if (!member.fullName.trim()) nextErrors[`m-${idx}-fullName`] = true;
+        if (!member.email.trim()) nextErrors[`m-${idx}-email`] = true;
+        if (!member.usn.trim()) nextErrors[`m-${idx}-usn`] = true;
+        if (!member.ieeeId.trim()) nextErrors[`m-${idx}-ieeeId`] = true;
+        if (!member.yearOfStudy) nextErrors[`m-${idx}-yearOfStudy`] = true;
+      });
+    }
+
+    if (stepIndex === 4) {
+      if (!formData.ideaTitle.trim()) nextErrors.ideaTitle = true;
+      if (!formData.ideaDescription.trim()) nextErrors.ideaDescription = true;
+      if (formData.ideaDescription.length > 300) {
+        nextErrors.ideaDescription = true;
+      }
+      if (!formData.pptLink.trim() || !isValidUrl(formData.pptLink)) {
+        nextErrors.pptLink = true;
+      }
+    }
+
+    if (stepIndex === 5) {
+      if (!formData.confirmIeee) nextErrors.confirmIeee = true;
+      if (!formData.confirmAccurate) nextErrors.confirmAccurate = true;
+      if (!formData.confirmTerms) nextErrors.confirmTerms = true;
+    }
+
+    return nextErrors;
+  };
+
+  const goNext = () => {
+    const nextErrors = validateStep(currentStep);
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      return;
+    }
+
+    setErrors({});
+
+    if (currentStep === steps.length - 1) {
+      setIsSubmitting(true);
+      window.setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+      }, 1300);
+      return;
+    }
+
+    setDirection(1);
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  };
+
+  const goBack = () => {
+    setErrors({});
+    if (currentStep === 0) return;
+    setDirection(-1);
+    setCurrentStep((prev) => Math.max(prev - 1, 0));
+  };
+
+  const fieldClass = (name: string) =>
+    cn(
+      "h-11 rounded-xl border border-zinc-700 bg-[#111111] text-white placeholder:text-zinc-500 focus-visible:border-[#F59E0B] focus-visible:ring-0 focus-visible:ring-offset-0",
+      errors[name] && "border-[#F59E0B] ring-1 ring-[#F59E0B]/55"
+    );
+
+  const selectClass = (name: string) =>
+    cn(
+      "h-11 rounded-xl border border-zinc-700 bg-[#111111] text-white focus:border-[#F59E0B] focus:ring-0 focus:ring-offset-0",
+      errors[name] && "border-[#F59E0B] ring-1 ring-[#F59E0B]/55"
+    );
 
   if (isSubmitted) {
     return (
-      <div className="w-full max-w-lg mx-auto py-8">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-        >
-          <Card className="border shadow-md rounded-3xl overflow-hidden bg-[#1A1A1A] border-white/10 text-center px-6 py-12">
-            <div className="flex flex-col items-center gap-4">
-              <CheckCircle2 size={56} color={AMBER} />
-              <h2 className="text-2xl font-bold text-white tracking-tight">REGISTRATION RECEIVED.</h2>
-              <p className="font-medium" style={{ color: AMBER }}>
-                Screening results will be announced on April 28, 2026.
-              </p>
-              <p className="text-gray-400 text-sm">Check your email for confirmation.</p>
+      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+        <Card className="rounded-2xl border border-zinc-800 bg-[#1A1A1A] text-white shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+          <CardContent className="py-16 text-center">
+            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-[#F59E0B] bg-[#F59E0B]/15">
+              <Check className="h-6 w-6 text-[#F59E0B]" />
             </div>
-          </Card>
-        </motion.div>
+            <h2 className="text-3xl font-black tracking-wide text-[#F59E0B]">
+              REGISTRATION RECEIVED.
+            </h2>
+            <p className="mt-4 text-zinc-300 text-base leading-relaxed max-w-xl mx-auto">
+              Screening results announced April 28, 2026. Check your email for
+              confirmation.
+            </p>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   return (
-    <div
-      className="w-full max-w-lg mx-auto py-8"
-      style={{ background: "#0A0A0A", minHeight: "100vh", padding: "2rem 1rem" }}
-    >
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8">
       <motion.div
         className="mb-8"
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.45 }}
       >
-        <div className="flex justify-between mb-2">
-          {steps.map((step, index) => (
-            <motion.div key={index} className="flex flex-col items-center" whileHover={{ scale: 1.1 }}>
-              <motion.div
-                className={cn("w-4 h-4 rounded-full cursor-pointer transition-colors duration-300")}
-                style={{
-                  background: index <= currentStep ? AMBER : "#333",
-                  boxShadow: index === currentStep ? `0 0 0 4px ${AMBER}33` : "none",
-                }}
-                onClick={() => {
-                  if (index <= currentStep) setCurrentStep(index);
-                }}
-                whileTap={{ scale: 0.95 }}
-              />
-              <motion.span
-                className="text-xs mt-1.5 hidden sm:block"
-                style={{ color: index === currentStep ? AMBER : "#666", fontFamily: "monospace" }}
-              >
-                {step.title}
-              </motion.span>
-            </motion.div>
-          ))}
-        </div>
-        <div className="w-full h-1.5 rounded-full overflow-hidden mt-2" style={{ background: "#222" }}>
-          <motion.div
-            className="h-full rounded-full"
-            style={{ background: AMBER }}
-            initial={{ width: 0 }}
-            animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
-            transition={{ duration: 0.3 }}
+        <div className="relative px-1">
+          <div className="absolute left-0 right-0 top-4 h-px bg-zinc-700" />
+          <div
+            className="absolute left-0 top-4 h-px bg-[#F59E0B] transition-all duration-300"
+            style={{
+              width: `${(currentStep / (steps.length - 1)) * 100}%`,
+            }}
           />
+
+          <div className="relative grid grid-cols-6 gap-2">
+            {steps.map((step, index) => {
+              const isActive = index === currentStep;
+              const isComplete = index < currentStep;
+              return (
+                <div key={step.id} className="flex flex-col items-center text-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (index <= currentStep) {
+                        setDirection(index > currentStep ? 1 : -1);
+                        setCurrentStep(index);
+                      }
+                    }}
+                    className={cn(
+                      "z-10 flex h-8 w-8 items-center justify-center rounded-full border text-[11px] font-bold transition-colors",
+                      isActive && "bg-[#F59E0B] border-[#F59E0B] text-black",
+                      isComplete && "bg-transparent border-[#F59E0B] text-[#F59E0B]",
+                      !isActive && !isComplete && "bg-zinc-800 border-zinc-600 text-zinc-400"
+                    )}
+                  >
+                    {isComplete ? <Check className="h-3.5 w-3.5" /> : index + 1}
+                  </button>
+                  <span
+                    className={cn(
+                      "mt-2 text-[10px] sm:text-[11px] tracking-wide",
+                      isActive ? "text-[#F59E0B]" : "text-zinc-500"
+                    )}
+                  >
+                    {step.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        <Card
-          className="border shadow-md rounded-3xl overflow-hidden"
-          style={{ background: "#1A1A1A", borderColor: "#2a2a2a" }}
-        >
-          <div>
-            <AnimatePresence mode="wait">
-              <motion.div key={currentStep} initial="hidden" animate="visible" exit="exit" variants={contentVariants}>
-                {currentStep === 0 && (
-                  <>
-                    <CardHeader>
-                      <CardTitle className="text-white">Set up your team.</CardTitle>
-                      <CardDescription>Choose your track and team size.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white" htmlFor="teamName">
-                          Team Name
-                        </Label>
-                        <Input
-                          id="teamName"
-                          placeholder="e.g. Team Zenith"
-                          value={formData.teamName}
-                          onChange={(e) => updateFormData("teamName", e.target.value)}
-                          className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B]"
-                        />
-                      </motion.div>
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white">Track</Label>
-                        <Select value={formData.track} onValueChange={(v) => updateFormData("track", v)}>
-                          <SelectTrigger className="bg-[#111] border-[#333] text-white focus:border-[#F59E0B]">
-                            <SelectValue placeholder="Select a track" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-[#1A1A1A] border-[#333] text-white">
-                            <SelectItem value="ai-social-good">AI for Social Good</SelectItem>
-                            <SelectItem value="sustainability">Sustainability Goals</SelectItem>
-                            <SelectItem value="cybersecurity-blockchain">Cybersecurity & Blockchain</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </motion.div>
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white">Team Size</Label>
-                        <Select value={formData.teamSize} onValueChange={(v) => updateFormData("teamSize", v)}>
-                          <SelectTrigger className="bg-[#111] border-[#333] text-white focus:border-[#F59E0B]">
-                            <SelectValue placeholder="Number of members" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-[#1A1A1A] border-[#333] text-white">
-                            <SelectItem value="2">2 Members</SelectItem>
-                            <SelectItem value="3">3 Members</SelectItem>
-                            <SelectItem value="4">4 Members</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </motion.div>
-                    </CardContent>
-                  </>
-                )}
+      <Card className="rounded-2xl border border-zinc-800 bg-[#1A1A1A] text-white shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={currentStep}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.35, ease: "easeOut" }}
+          >
+            <CardHeader className="pb-4">
+              <CardTitle className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+                {stepTitle[currentStep]}
+              </CardTitle>
+              <CardDescription className="text-zinc-400 text-base">
+                {stepSubtitle[currentStep]}
+              </CardDescription>
+            </CardHeader>
 
-                {currentStep === 1 && (
-                  <>
-                    <CardHeader>
-                      <CardTitle className="text-white">Tell us about your leader.</CardTitle>
-                      <CardDescription>The team leader's details.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {[
-                        { id: "leaderName", label: "Full Name", placeholder: "Full name", type: "text" },
-                        {
-                          id: "leaderEmail",
-                          label: "Email Address",
-                          placeholder: "email@example.com",
-                          type: "email",
-                        },
-                        {
-                          id: "leaderMobile",
-                          label: "Mobile Number",
-                          placeholder: "+91 XXXXX XXXXX",
-                          type: "tel",
-                        },
-                        {
-                          id: "leaderIeeeId",
-                          label: "IEEE Membership ID",
-                          placeholder: "IEEE ID",
-                          type: "text",
-                        },
-                      ].map((field) => (
-                        <motion.div key={field.id} variants={fadeInUp} className="space-y-2">
-                          <Label className="text-white" htmlFor={field.id}>
-                            {field.label}
-                          </Label>
-                          <Input
-                            id={field.id}
-                            type={field.type}
-                            placeholder={field.placeholder}
-                            value={formData[field.id as keyof FormData] as string}
-                            onChange={(e) => updateFormData(field.id as keyof FormData, e.target.value)}
-                            className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B]"
-                          />
-                        </motion.div>
-                      ))}
-                      <p className="text-xs text-gray-500 font-mono">* IEEE membership is mandatory for all members</p>
-                    </CardContent>
-                  </>
-                )}
+            <CardContent className="space-y-5">
+              {currentStep === 0 && (
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-white font-semibold" htmlFor="teamName">
+                      Team Name
+                    </Label>
+                    <Input
+                      id="teamName"
+                      placeholder="Enter your team name"
+                      value={formData.teamName}
+                      onChange={(e) => updateField("teamName", e.target.value)}
+                      className={fieldClass("teamName")}
+                    />
+                  </div>
 
-                {currentStep === 2 && (
-                  <>
-                    <CardHeader>
-                      <CardTitle className="text-white">Where are you from?</CardTitle>
-                      <CardDescription>Your college and academic details.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white" htmlFor="college">
-                          College Name
-                        </Label>
-                        <Input
-                          id="college"
-                          placeholder="e.g. Vemana Institute of Technology"
-                          value={formData.college}
-                          onChange={(e) => updateFormData("college", e.target.value)}
-                          className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B]"
-                        />
-                      </motion.div>
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white" htmlFor="department">
-                          Department
-                        </Label>
-                        <Input
-                          id="department"
-                          placeholder="e.g. Computer Science"
-                          value={formData.department}
-                          onChange={(e) => updateFormData("department", e.target.value)}
-                          className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B]"
-                        />
-                      </motion.div>
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white">Year of Study</Label>
-                        <Select value={formData.year} onValueChange={(v) => updateFormData("year", v)}>
-                          <SelectTrigger className="bg-[#111] border-[#333] text-white focus:border-[#F59E0B]">
-                            <SelectValue placeholder="Select year" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-[#1A1A1A] border-[#333] text-white">
-                            <SelectItem value="1">1st Year</SelectItem>
-                            <SelectItem value="2">2nd Year</SelectItem>
-                            <SelectItem value="3">3rd Year</SelectItem>
-                            <SelectItem value="4">4th Year</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </motion.div>
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white" htmlFor="usn">
-                          USN / College ID
-                        </Label>
-                        <Input
-                          id="usn"
-                          placeholder="e.g. 1VE21CS001"
-                          value={formData.usn}
-                          onChange={(e) => updateFormData("usn", e.target.value)}
-                          className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B]"
-                        />
-                      </motion.div>
-                    </CardContent>
-                  </>
-                )}
-
-                {currentStep === 3 && (
-                  <>
-                    <CardHeader>
-                      <CardTitle className="text-white">Add your teammates.</CardTitle>
-                      <CardDescription>Details for remaining {teamSizeNum - 1} member(s).</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      {Array.from({ length: teamSizeNum - 1 }).map((_, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: i * 0.1, duration: 0.3 }}
-                          className="space-y-3 pl-3"
-                          style={{ borderLeft: `2px solid ${AMBER}` }}
-                        >
-                          <p
-                            className="text-xs font-bold tracking-widest"
-                            style={{ color: AMBER, fontFamily: "monospace" }}
-                          >
-                            MEMBER {i + 2}
-                          </p>
-                          {[
-                            {
-                              field: "fullName",
-                              label: "Full Name",
-                              placeholder: "Full name",
-                              type: "text",
-                            },
-                            {
-                              field: "email",
-                              label: "Email",
-                              placeholder: "email@example.com",
-                              type: "email",
-                            },
-                            {
-                              field: "usn",
-                              label: "USN / College ID",
-                              placeholder: "e.g. 1VE21CS002",
-                              type: "text",
-                            },
-                            {
-                              field: "ieeeId",
-                              label: "IEEE Membership ID",
-                              placeholder: "IEEE ID",
-                              type: "text",
-                            },
-                          ].map((f) => (
-                            <div key={f.field} className="space-y-1">
-                              <Label className="text-white text-xs">{f.label}</Label>
-                              <Input
-                                type={f.type}
-                                placeholder={f.placeholder}
-                                value={formData.members[i][f.field as keyof MemberData]}
-                                onChange={(e) => updateMember(i, f.field as keyof MemberData, e.target.value)}
-                                className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B]"
-                              />
-                            </div>
-                          ))}
-                          <div className="space-y-1">
-                            <Label className="text-white text-xs">Year of Study</Label>
-                            <Select value={formData.members[i].year} onValueChange={(v) => updateMember(i, "year", v)}>
-                              <SelectTrigger className="bg-[#111] border-[#333] text-white focus:border-[#F59E0B]">
-                                <SelectValue placeholder="Select year" />
-                              </SelectTrigger>
-                              <SelectContent className="bg-[#1A1A1A] border-[#333] text-white">
-                                <SelectItem value="1">1st Year</SelectItem>
-                                <SelectItem value="2">2nd Year</SelectItem>
-                                <SelectItem value="3">3rd Year</SelectItem>
-                                <SelectItem value="4">4th Year</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </CardContent>
-                  </>
-                )}
-
-                {currentStep === 4 && (
-                  <>
-                    <CardHeader>
-                      <CardTitle className="text-white">Pitch your idea.</CardTitle>
-                      <CardDescription>Tell us what you're building.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white" htmlFor="ideaTitle">
-                          Idea Title
-                        </Label>
-                        <Input
-                          id="ideaTitle"
-                          placeholder="Your project name"
-                          value={formData.ideaTitle}
-                          onChange={(e) => updateFormData("ideaTitle", e.target.value)}
-                          className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B]"
-                        />
-                      </motion.div>
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <div className="flex justify-between">
-                          <Label className="text-white" htmlFor="ideaDescription">
-                            Brief Description
-                          </Label>
-                          <span className="text-xs font-mono" style={{ color: AMBER }}>
-                            {formData.ideaDescription.length}/300
-                          </span>
-                        </div>
-                        <Textarea
-                          id="ideaDescription"
-                          placeholder="Describe your idea in under 300 characters..."
-                          maxLength={300}
-                          value={formData.ideaDescription}
-                          onChange={(e) => updateFormData("ideaDescription", e.target.value)}
-                          className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B] min-h-[100px]"
-                        />
-                      </motion.div>
-                      <motion.div variants={fadeInUp} className="space-y-2">
-                        <Label className="text-white" htmlFor="pptLink">
-                          PPT / Presentation Link
-                        </Label>
-                        <Input
-                          id="pptLink"
-                          placeholder="Google Drive link to your PPT"
-                          value={formData.pptLink}
-                          onChange={(e) => updateFormData("pptLink", e.target.value)}
-                          className="bg-[#111] border-[#333] text-white placeholder:text-gray-500 focus:border-[#F59E0B]"
-                        />
-                      </motion.div>
-                    </CardContent>
-                  </>
-                )}
-
-                {currentStep === 5 && (
-                  <>
-                    <CardHeader>
-                      <CardTitle className="text-white">Review your details.</CardTitle>
-                      <CardDescription>Confirm everything before submitting.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <ReviewSection title="TEAM INFO">
-                        <ReviewRow label="Team Name" value={formData.teamName} />
-                        <ReviewRow label="Track" value={formData.track} />
-                        <ReviewRow label="Team Size" value={formData.teamSize} />
-                      </ReviewSection>
-                      <ReviewSection title="TEAM LEADER">
-                        <ReviewRow label="Name" value={formData.leaderName} />
-                        <ReviewRow label="Email" value={formData.leaderEmail} />
-                        <ReviewRow label="Mobile" value={formData.leaderMobile} />
-                        <ReviewRow label="IEEE ID" value={formData.leaderIeeeId} />
-                      </ReviewSection>
-                      <ReviewSection title="COLLEGE INFO">
-                        <ReviewRow label="College" value={formData.college} />
-                        <ReviewRow label="Department" value={formData.department} />
-                        <ReviewRow label="Year" value={formData.year} />
-                        <ReviewRow label="USN" value={formData.usn} />
-                      </ReviewSection>
-                      <ReviewSection title="IDEA">
-                        <ReviewRow label="Title" value={formData.ideaTitle} />
-                        <ReviewRow label="PPT Link" value={formData.pptLink || "Not provided"} />
-                      </ReviewSection>
-
-                      <div
-                        className="p-3 rounded-lg text-sm"
-                        style={{ borderLeft: `3px solid ${AMBER}`, background: "#111" }}
-                      >
-                        <p className="text-white font-semibold">Round 1 Fee: ₹300 per team</p>
-                        <p className="text-gray-400 text-xs mt-1">
-                          Payment details will be shared after screening on April 28, 2026.
-                        </p>
-                      </div>
-
-                      <div className="space-y-3 pt-2">
-                        {[
-                          { field: "checkIeee", label: "All team members are active IEEE members" },
-                          { field: "checkAccurate", label: "All information provided is accurate" },
-                          { field: "checkTerms", label: "I agree to the terms and conditions of EPOCH '26" },
-                        ].map((item) => (
-                          <div key={item.field} className="flex items-center space-x-3">
-                            <Checkbox
-                              id={item.field}
-                              checked={formData[item.field as keyof FormData] as boolean}
-                              onCheckedChange={(v) =>
-                                updateFormData(item.field as keyof FormData, v as boolean)
-                              }
-                              style={{ borderColor: AMBER }}
-                            />
-                            <Label htmlFor={item.field} className="text-gray-300 text-sm cursor-pointer">
-                              {item.label}
-                            </Label>
-                          </div>
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold">Track</Label>
+                    <Select
+                      value={formData.track}
+                      onValueChange={(value) => updateField("track", value)}
+                    >
+                      <SelectTrigger className={selectClass("track")}>
+                        <SelectValue placeholder="Choose a track" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {tracks.map((item) => (
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
+                          </SelectItem>
                         ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold">Team Size</Label>
+                    <Select
+                      value={formData.teamSize}
+                      onValueChange={(value: TeamSize) => updateField("teamSize", value)}
+                    >
+                      <SelectTrigger className={selectClass("teamSize")}>
+                        <SelectValue placeholder="Select team size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="2">2</SelectItem>
+                        <SelectItem value="3">3</SelectItem>
+                        <SelectItem value="4">4</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              )}
+
+              {currentStep === 1 && (
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-white font-semibold" htmlFor="leaderName">
+                      Full Name
+                    </Label>
+                    <Input
+                      id="leaderName"
+                      placeholder="Team leader full name"
+                      value={formData.leaderName}
+                      onChange={(e) => updateField("leaderName", e.target.value)}
+                      className={fieldClass("leaderName")}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold" htmlFor="leaderEmail">
+                      Email
+                    </Label>
+                    <Input
+                      id="leaderEmail"
+                      type="email"
+                      placeholder="leader@example.com"
+                      value={formData.leaderEmail}
+                      onChange={(e) => updateField("leaderEmail", e.target.value)}
+                      className={fieldClass("leaderEmail")}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold" htmlFor="leaderMobile">
+                      Mobile Number
+                    </Label>
+                    <Input
+                      id="leaderMobile"
+                      placeholder="10-digit number"
+                      value={formData.leaderMobile}
+                      onChange={(e) => updateField("leaderMobile", e.target.value)}
+                      className={fieldClass("leaderMobile")}
+                    />
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-white font-semibold" htmlFor="leaderIeeeId">
+                      IEEE Membership ID
+                    </Label>
+                    <Input
+                      id="leaderIeeeId"
+                      placeholder="Enter IEEE membership ID"
+                      value={formData.leaderIeeeId}
+                      onChange={(e) => updateField("leaderIeeeId", e.target.value)}
+                      className={fieldClass("leaderIeeeId")}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {currentStep === 2 && (
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-white font-semibold" htmlFor="collegeName">
+                      College Name
+                    </Label>
+                    <Input
+                      id="collegeName"
+                      placeholder="Vemana Institute of Technology"
+                      value={formData.collegeName}
+                      onChange={(e) => updateField("collegeName", e.target.value)}
+                      className={fieldClass("collegeName")}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold" htmlFor="department">
+                      Department
+                    </Label>
+                    <Input
+                      id="department"
+                      placeholder="CSE / ISE / ECE"
+                      value={formData.department}
+                      onChange={(e) => updateField("department", e.target.value)}
+                      className={fieldClass("department")}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold">Year of Study</Label>
+                    <Select
+                      value={formData.collegeYear}
+                      onValueChange={(value) => updateField("collegeYear", value)}
+                    >
+                      <SelectTrigger className={selectClass("collegeYear")}>
+                        <SelectValue placeholder="Select year" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {yearOptions.map((value) => (
+                          <SelectItem key={value} value={value}>
+                            Year {value}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-white font-semibold" htmlFor="collegeId">
+                      USN / College ID
+                    </Label>
+                    <Input
+                      id="collegeId"
+                      placeholder="Enter USN or college ID"
+                      value={formData.collegeId}
+                      onChange={(e) => updateField("collegeId", e.target.value)}
+                      className={fieldClass("collegeId")}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {currentStep === 3 && (
+                <div className="space-y-4">
+                  {formData.members.map((member, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="rounded-xl border border-zinc-700/90 bg-[#111111] p-4"
+                      initial={{ opacity: 0, x: 32 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.25, delay: idx * 0.05 }}
+                      layout
+                    >
+                      <h4 className="text-[#F59E0B] font-semibold text-sm uppercase tracking-wider mb-3">
+                        Member {idx + 2}
+                      </h4>
+
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div className="space-y-2 md:col-span-2">
+                          <Label className="text-white font-semibold">Full Name</Label>
+                          <Input
+                            placeholder="Member full name"
+                            value={member.fullName}
+                            onChange={(e) => updateMember(idx, "fullName", e.target.value)}
+                            className={fieldClass(`m-${idx}-fullName`)}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-white font-semibold">Email</Label>
+                          <Input
+                            type="email"
+                            placeholder="member@example.com"
+                            value={member.email}
+                            onChange={(e) => updateMember(idx, "email", e.target.value)}
+                            className={fieldClass(`m-${idx}-email`)}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-white font-semibold">USN</Label>
+                          <Input
+                            placeholder="USN"
+                            value={member.usn}
+                            onChange={(e) => updateMember(idx, "usn", e.target.value)}
+                            className={fieldClass(`m-${idx}-usn`)}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-white font-semibold">IEEE Membership ID</Label>
+                          <Input
+                            placeholder="IEEE ID"
+                            value={member.ieeeId}
+                            onChange={(e) => updateMember(idx, "ieeeId", e.target.value)}
+                            className={fieldClass(`m-${idx}-ieeeId`)}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-white font-semibold">Year of Study</Label>
+                          <Select
+                            value={member.yearOfStudy}
+                            onValueChange={(value) => updateMember(idx, "yearOfStudy", value)}
+                          >
+                            <SelectTrigger className={selectClass(`m-${idx}-yearOfStudy`)}>
+                              <SelectValue placeholder="Select year" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {yearOptions.map((value) => (
+                                <SelectItem key={`${idx}-${value}`} value={value}>
+                                  Year {value}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
-                    </CardContent>
-                  </>
-                )}
-              </motion.div>
-            </AnimatePresence>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
 
-            <CardFooter className="flex justify-between pt-6 pb-4">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={prevStep}
-                  disabled={currentStep === 0}
-                  className="flex items-center gap-1 rounded-2xl border-[#333] text-white hover:bg-[#222]"
-                >
-                  <ChevronLeft className="h-4 w-4" /> Back
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  type="button"
-                  onClick={currentStep === steps.length - 1 ? handleSubmit : nextStep}
-                  disabled={!isStepValid() || isSubmitting}
-                  className="flex items-center gap-1 rounded-2xl font-bold"
-                  style={{ background: AMBER, color: "#000" }}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" /> Submitting...
-                    </>
-                  ) : (
-                    <>
-                      {currentStep === steps.length - 1 ? "SUBMIT REGISTRATION" : "Next"}
-                      {currentStep === steps.length - 1 ? (
-                        <Check className="h-4 w-4" />
-                      ) : (
-                        <ChevronRight className="h-4 w-4" />
+              {currentStep === 4 && (
+                <div className="space-y-5">
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold" htmlFor="ideaTitle">
+                      Idea Title
+                    </Label>
+                    <Input
+                      id="ideaTitle"
+                      placeholder="Name your hackathon idea"
+                      value={formData.ideaTitle}
+                      onChange={(e) => updateField("ideaTitle", e.target.value)}
+                      className={fieldClass("ideaTitle")}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold" htmlFor="ideaDescription">
+                      Brief Description
+                    </Label>
+                    <Textarea
+                      id="ideaDescription"
+                      maxLength={300}
+                      placeholder="Describe the problem, approach, and impact (max 300 chars)."
+                      value={formData.ideaDescription}
+                      onChange={(e) => updateField("ideaDescription", e.target.value)}
+                      className={cn(fieldClass("ideaDescription"), "min-h-[120px]")}
+                    />
+                    <p className="text-xs text-zinc-400 text-right">
+                      {formData.ideaDescription.length}/300
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-white font-semibold" htmlFor="pptLink">
+                      PPT Link (Google Drive URL)
+                    </Label>
+                    <Input
+                      id="pptLink"
+                      placeholder="https://drive.google.com/..."
+                      value={formData.pptLink}
+                      onChange={(e) => updateField("pptLink", e.target.value)}
+                      className={fieldClass("pptLink")}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {currentStep === 5 && (
+                <div className="space-y-6">
+                  <div className="grid gap-5 md:grid-cols-2">
+                    <div className="rounded-xl border border-zinc-700 bg-[#111111] p-4">
+                      <p className="text-[#F59E0B] uppercase text-xs tracking-wider font-semibold mb-2">Team Info</p>
+                      <p className="text-sm text-zinc-200"><span className="text-zinc-400">Team:</span> {formData.teamName}</p>
+                      <p className="text-sm text-zinc-200"><span className="text-zinc-400">Track:</span> {tracks.find((t) => t.value === formData.track)?.label || "-"}</p>
+                      <p className="text-sm text-zinc-200"><span className="text-zinc-400">Team Size:</span> {formData.teamSize}</p>
+                    </div>
+
+                    <div className="rounded-xl border border-zinc-700 bg-[#111111] p-4">
+                      <p className="text-[#F59E0B] uppercase text-xs tracking-wider font-semibold mb-2">Team Leader</p>
+                      <p className="text-sm text-zinc-200">{formData.leaderName}</p>
+                      <p className="text-sm text-zinc-200">{formData.leaderEmail}</p>
+                      <p className="text-sm text-zinc-200">{formData.leaderMobile}</p>
+                      <p className="text-sm text-zinc-200">IEEE: {formData.leaderIeeeId}</p>
+                    </div>
+
+                    <div className="rounded-xl border border-zinc-700 bg-[#111111] p-4">
+                      <p className="text-[#F59E0B] uppercase text-xs tracking-wider font-semibold mb-2">College</p>
+                      <p className="text-sm text-zinc-200">{formData.collegeName}</p>
+                      <p className="text-sm text-zinc-200">{formData.department}</p>
+                      <p className="text-sm text-zinc-200">Year {formData.collegeYear}</p>
+                      <p className="text-sm text-zinc-200">ID: {formData.collegeId}</p>
+                    </div>
+
+                    <div className="rounded-xl border border-zinc-700 bg-[#111111] p-4">
+                      <p className="text-[#F59E0B] uppercase text-xs tracking-wider font-semibold mb-2">Idea</p>
+                      <p className="text-sm text-zinc-200">{formData.ideaTitle}</p>
+                      <p className="mt-2 text-sm text-zinc-400 leading-relaxed">{formData.ideaDescription}</p>
+                      <p className="mt-2 text-sm text-zinc-200 break-all">{formData.pptLink}</p>
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl border border-zinc-700 bg-[#111111] p-4">
+                    <p className="text-[#F59E0B] uppercase text-xs tracking-wider font-semibold mb-2">Team Members</p>
+                    <div className="space-y-2">
+                      {formData.members.map((member, idx) => (
+                        <div key={`review-member-${idx}`} className="text-sm text-zinc-200">
+                          Member {idx + 2}: {member.fullName} | {member.email} | {member.usn} | IEEE {member.ieeeId} | Year {member.yearOfStudy}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 rounded-xl border border-zinc-700 bg-[#111111] p-4">
+                    <label
+                      className={cn(
+                        "flex items-start gap-3 rounded-lg border border-zinc-700 px-3 py-2",
+                        errors.confirmIeee && "border-[#F59E0B]"
                       )}
-                    </>
-                  )}
-                </Button>
-              </motion.div>
-            </CardFooter>
-          </div>
-        </Card>
-      </motion.div>
+                    >
+                      <Checkbox
+                        checked={formData.confirmIeee}
+                        onCheckedChange={(checked) => updateField("confirmIeee", Boolean(checked))}
+                      />
+                      <span className="text-sm text-zinc-200">All members are active IEEE members</span>
+                    </label>
 
-      <motion.div
-        className="mt-4 text-center text-sm"
-        style={{ color: "#555", fontFamily: "monospace" }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        Step {currentStep + 1} of {steps.length}: {steps[currentStep].title}
-      </motion.div>
+                    <label
+                      className={cn(
+                        "flex items-start gap-3 rounded-lg border border-zinc-700 px-3 py-2",
+                        errors.confirmAccurate && "border-[#F59E0B]"
+                      )}
+                    >
+                      <Checkbox
+                        checked={formData.confirmAccurate}
+                        onCheckedChange={(checked) => updateField("confirmAccurate", Boolean(checked))}
+                      />
+                      <span className="text-sm text-zinc-200">Information provided is accurate</span>
+                    </label>
+
+                    <label
+                      className={cn(
+                        "flex items-start gap-3 rounded-lg border border-zinc-700 px-3 py-2",
+                        errors.confirmTerms && "border-[#F59E0B]"
+                      )}
+                    >
+                      <Checkbox
+                        checked={formData.confirmTerms}
+                        onCheckedChange={(checked) => updateField("confirmTerms", Boolean(checked))}
+                      />
+                      <span className="text-sm text-zinc-200">I agree to EPOCH '26 terms and conditions</span>
+                    </label>
+
+                    <p className="pt-2 text-sm text-[#F59E0B] font-semibold">
+                      Round 1 Registration Fee: ₹300 per team. Payment details shared post screening.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </motion.div>
+        </AnimatePresence>
+
+        <CardFooter className="justify-between gap-4 border-t border-zinc-800">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={goBack}
+            disabled={currentStep === 0 || isSubmitting}
+            className="h-11 min-w-[120px] rounded-xl border-zinc-700 bg-transparent text-zinc-100 hover:bg-zinc-900 hover:text-white"
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
+            Back
+          </Button>
+
+          <Button
+            type="button"
+            onClick={goNext}
+            disabled={isSubmitting}
+            className="h-11 min-w-[180px] rounded-xl bg-[#F59E0B] text-black hover:bg-[#d98900]"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Submitting...
+              </>
+            ) : currentStep === steps.length - 1 ? (
+              "SUBMIT REGISTRATION"
+            ) : (
+              <>
+                Next
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </CardFooter>
+      </Card>
+
+      <p className="mt-4 text-center text-sm text-zinc-400 tracking-wide">
+        Step {currentStep + 1} of {steps.length}: {currentStepName}
+      </p>
     </div>
   );
-};
-
-export default EpochRegistrationForm;
+}

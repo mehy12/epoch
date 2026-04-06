@@ -297,7 +297,7 @@ export default function MultiStepForm() {
 
   if (isSubmitted) {
     return (
-      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="w-full max-w-2xl mx-auto px-4 sm:px-6">
         <Card className="rounded-2xl border border-zinc-800 bg-[#1A1A1A] text-white shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
           <CardContent className="py-16 text-center">
             <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-[#F59E0B] bg-[#F59E0B]/15">
@@ -317,7 +317,7 @@ export default function MultiStepForm() {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8">
+    <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-8">
       <motion.div
         className="mb-8"
         initial={{ opacity: 0, y: -14 }}

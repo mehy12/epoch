@@ -52,12 +52,9 @@ body {
   overflow-x: hidden;
   font-size: 16px;
   line-height: 1.65;
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-sans), sans-serif;
   color: var(--text);
-  background:
-    radial-gradient(circle at 52% -9%, rgba(245, 158, 11, 0.15), transparent 40%),
-    radial-gradient(circle at 86% 24%, rgba(245, 158, 11, 0.07), transparent 31%),
-    var(--bg);
+  background: var(--bg);
 }
 
 .numeric,

@@ -2796,6 +2796,7 @@ select.register-control {
 .register-template-link:focus-visible {
   background: rgba(245, 158, 11, 0.18);
   color: #ffd58b;
+}
 
 .epoch-log {
   padding: 0.78rem 0.88rem;

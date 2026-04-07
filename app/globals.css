@@ -2810,13 +2810,13 @@ select.register-control {
 
 .epoch-faq-group {
   border: 1px solid rgba(245, 158, 11, 0.42);
-  background: linear-gradient(180deg, #fcfcfb 0%, #f3f1ed 100%);
-  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.18);
+  background: linear-gradient(180deg, rgba(35, 26, 8, 0.96) 0%, rgba(18, 14, 8, 0.98) 100%);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.22);
   padding: 0.85rem 0.95rem;
 }
 
 .epoch-faq-group-title {
-  color: #181818;
+  color: #f5f5f5;
   font-size: clamp(1.2rem, 2.4vw, 1.65rem);
   letter-spacing: 0.03em;
   margin-bottom: 0.26rem;
@@ -2827,7 +2827,7 @@ select.register-control {
 }
 
 .epoch-faq-item {
-  border-top: 1px solid rgba(184, 117, 8, 0.24);
+  border-top: 1px solid rgba(245, 158, 11, 0.2);
 }
 
 .epoch-faq-item:first-child {
@@ -2838,7 +2838,7 @@ select.register-control {
   width: 100%;
   border: 0;
   background: transparent;
-  color: #1e1e1e;
+  color: #ece6d8;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -2853,12 +2853,12 @@ select.register-control {
 
 .epoch-faq-trigger:hover,
 .epoch-faq-trigger:focus-visible {
-  color: #b16f05;
+  color: #f2c06a;
 }
 
 .epoch-faq-icon {
   min-width: 22px;
-  color: #b16f05;
+  color: #f59e0b;
   font-family: var(--font-heading), sans-serif;
   font-size: 1.12rem;
   line-height: 1;
@@ -2869,7 +2869,7 @@ select.register-control {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  color: #393939;
+  color: #d7ccba;
   font-family: var(--font-mono), monospace;
   font-size: 0.8rem;
   line-height: 1.65;

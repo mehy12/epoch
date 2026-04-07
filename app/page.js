@@ -86,7 +86,7 @@ const rounds = [
     price: "₹500",
     details: [
       "Team base fee",
-      "IEEE members get ₹200 discount",
+      "Payment via QR in registration flow",
       "Submit PPT and idea",
       "Screening on April 24-25, 2026",
     ],
@@ -94,7 +94,7 @@ const rounds = [
   {
     phase: "Phase 02",
     title: "Round 2: Finale",
-    price: "₹800",
+    price: "₹1000",
     details: [
       "For shortlisted teams",
       "On-campus at Vemana IT",
@@ -333,7 +333,7 @@ export default function HomePage() {
         <h2>
           Access <span>Protocols</span>
         </h2>
-        <p className="epoch-subcopy">Registrations are team based. IEEE is optional and gives Round 1 discount.</p>
+        <p className="epoch-subcopy">Registrations are team based. Complete payment of ₹500 with UTR and screenshot proof.</p>
 
         <div className="epoch-rounds-grid">
           {rounds.map((round) => (

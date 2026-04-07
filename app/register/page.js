@@ -60,7 +60,6 @@ function initialFormData() {
       pptLink: "",
     },
     declaration: {
-      allMembersIEEE: false,
       infoAccurate: false,
       agreeTerms: false,
     },
@@ -91,6 +90,8 @@ export default function RegisterPage() {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeSection, setActiveSection] = useState(sectionSteps[0].id);
 
   const sectionRefs = useRef({});
@@ -177,10 +178,6 @@ export default function RegisterPage() {
       next["leader.usn"] = "USN / College ID is required.";
     }
 
-    if (!data.leader.ieeeId.trim()) {
-      next["leader.ieeeId"] = "IEEE Membership ID is required.";
-    }
-
     for (let memberNumber = 2; memberNumber <= Number(data.teamInfo.teamSize); memberNumber += 1) {
       const member = data.members[memberNumber];
       const base = `members.${memberNumber}`;
@@ -195,10 +192,6 @@ export default function RegisterPage() {
 
       if (!member.usn.trim()) {
         next[`${base}.usn`] = `Member ${memberNumber} USN / College ID is required.`;
-      }
-
-      if (!member.ieeeId.trim()) {
-        next[`${base}.ieeeId`] = `Member ${memberNumber} IEEE Membership ID is required.`;
       }
 
       if (!member.department.trim()) {
@@ -220,10 +213,6 @@ export default function RegisterPage() {
 
     if (!isGoogleDriveLink(data.idea.pptLink.trim())) {
       next["idea.pptLink"] = "Add a valid Google Drive or Google Docs presentation link.";
-    }
-
-    if (!data.declaration.allMembersIEEE) {
-      next["declaration.allMembersIEEE"] = "Confirm IEEE membership for all members.";
     }
 
     if (!data.declaration.infoAccurate) {
@@ -297,15 +286,26 @@ export default function RegisterPage() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitAttempted(true);
+    setSubmitError("");
 
     const nextErrors = validateForm(formData);
     setErrors(nextErrors);
 
-    if (Object.keys(nextErrors).length === 0) {
-      router.push("/register/success");
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      window.sessionStorage.setItem("epoch-registration-draft", JSON.stringify(formData));
+      router.push("/register/payment");
+    } catch (error) {
+      setSubmitError(error.message || "Could not move to payment step. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -614,7 +614,7 @@ export default function RegisterPage() {
 
                 <div className="register-field">
                   <label className="register-label" htmlFor="leaderIeeeId">
-                    IEEE Membership ID <span className="register-required">*</span>
+                    IEEE Membership ID (Optional)
                   </label>
                   <input
                     id="leaderIeeeId"
@@ -625,7 +625,6 @@ export default function RegisterPage() {
                     aria-invalid={Boolean(getError("leader.ieeeId"))}
                     aria-describedby={getError("leader.ieeeId") ? "leaderIeeeId-error" : undefined}
                   />
-                  <p className="register-note">IEEE membership is mandatory for all members.</p>
                   {getError("leader.ieeeId") ? (
                     <p id="leaderIeeeId-error" className="register-error">
                       {getError("leader.ieeeId")}
@@ -745,7 +744,7 @@ export default function RegisterPage() {
 
                           <div className="register-field">
                             <label className="register-label" htmlFor={`member${memberNumber}IeeeId`}>
-                              IEEE Membership ID <span className="register-required">*</span>
+                              IEEE Membership ID (Optional)
                             </label>
                             <input
                               id={`member${memberNumber}IeeeId`}
@@ -927,24 +926,6 @@ export default function RegisterPage() {
               <div className="register-checklist" role="group" aria-label="Registration declarations">
                 <label
                   className={`register-checkitem${
-                    getError("declaration.allMembersIEEE") ? " is-invalid" : ""
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={formData.declaration.allMembersIEEE}
-                    onChange={(event) =>
-                      updateDeclaration("allMembersIEEE", event.target.checked)
-                    }
-                  />
-                  <span>All team members are active IEEE members</span>
-                </label>
-                {getError("declaration.allMembersIEEE") ? (
-                  <p className="register-error">{getError("declaration.allMembersIEEE")}</p>
-                ) : null}
-
-                <label
-                  className={`register-checkitem${
                     getError("declaration.infoAccurate") ? " is-invalid" : ""
                   }`}
                 >
@@ -977,11 +958,17 @@ export default function RegisterPage() {
               </div>
 
               <div className="register-fee-note">
-                Round 1 Fee: ₹300 per team. Payment details will be shared after screening.
+                Registration Fee: ₹500 per team. Proceed to payment after this step.
               </div>
 
-              <button className="register-submit" type="submit">
-                SUBMIT REGISTRATION
+              {submitError ? (
+                <p className="register-error" role="alert" aria-live="polite">
+                  {submitError}
+                </p>
+              ) : null}
+
+              <button className="register-submit" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "OPENING PAYMENT..." : "PROCEED TO PAYMENT"}
               </button>
             </motion.section>
           </form>

@@ -431,7 +431,7 @@ export default function HomePage() {
       </section>
 
       <footer className="epoch-footer">
-        <p>EPOCH 26</p>
+        <p>EPOCH 26 • Website designed by Meesam Hyder</p>
         <div>
           <a href="#top">Home</a>
           <a href="#tracks">Disciplines</a>

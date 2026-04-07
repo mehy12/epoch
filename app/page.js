@@ -55,27 +55,47 @@ const chronology = [
   {
     time: "11:00 AM",
     title: "Hackathon Begins",
-    description: "Assemble teams and ignite the timeline. Build starts now.",
+    description: "Assemble teams and begin building.",
   },
   {
-    time: "04:00 PM",
-    title: "Intel Checkpoint I",
-    description: "Mandatory review of progress and problem validation.",
+    time: "02:00 PM",
+    title: "Lunch",
+    description: "Lunch break for all participants.",
+  },
+  {
+    time: "05:00 PM",
+    title: "Snacks",
+    description: "Evening snacks break.",
+  },
+  {
+    time: "08:00 PM",
+    title: "Dinner",
+    description: "Dinner break for teams.",
   },
   {
     time: "12:00 AM",
-    title: "Midnight Jamming",
-    description: "Caffeine, music, and pure deep-work mode.",
+    title: "Jamming Session",
+    description: "Midnight creativity and deep work.",
   },
   {
-    time: "02:00 AM",
-    title: "Intel Checkpoint II",
-    description: "Architecture and risk pass with the mentors.",
+    time: "04:00 AM",
+    title: "Tea & Coffee",
+    description: "Refreshment break for participants.",
   },
   {
-    time: "09:30 AM",
-    title: "Final Submission",
-    description: "Repositories lock. The jury pipeline opens.",
+    time: "08:00 AM",
+    title: "Breakfast",
+    description: "Breakfast served at venue.",
+  },
+  {
+    time: "11:00 AM",
+    title: "Judging Begins",
+    description: "Project evaluation starts.",
+  },
+  {
+    time: "01:00 PM",
+    title: "Valedictory Ceremony",
+    description: "Closing ceremony and announcements.",
   },
 ];
 

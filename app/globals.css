@@ -2356,27 +2356,85 @@ select.register-control {
 }
 
 .epoch-prize-feature {
+  position: relative;
+  overflow: hidden;
   margin-top: 1rem;
-  padding: clamp(1.1rem, 3vw, 1.7rem);
-  border-color: rgba(245, 158, 11, 0.36);
-  background: linear-gradient(120deg, rgba(32, 24, 9, 0.98), rgba(18, 14, 8, 0.98) 56%, rgba(12, 12, 12, 0.98) 100%);
+  min-height: clamp(220px, 28vw, 380px);
+  padding: clamp(1rem, 2.8vw, 2rem);
+  border-color: rgba(245, 158, 11, 0.65);
+  background: linear-gradient(180deg, #e8a60e 0%, #de9d0a 100%);
+  color: #1f1503;
+  display: grid;
+  grid-template-columns: minmax(140px, 0.9fr) minmax(260px, 2fr) minmax(150px, 0.9fr);
+  grid-template-areas:
+    "left amount list"
+    "sub amount list";
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.epoch-prize-watermark {
+  position: absolute;
+  left: 18%;
+  top: -7%;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(7rem, 23vw, 18rem);
+  letter-spacing: 0.02em;
+  line-height: 0.82;
+  color: rgba(130, 86, 4, 0.2);
+  pointer-events: none;
 }
 
 .epoch-prize-label {
-  color: #f2c06a;
+  grid-area: left;
+  z-index: 1;
+  color: #2b1d04;
   text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-size: 0.54rem;
+  font-family: var(--font-heading), sans-serif;
+  letter-spacing: 0.04em;
+  font-size: clamp(2.2rem, 5.8vw, 5rem);
+  line-height: 0.82;
 }
 
-.epoch-prize-feature h3 {
-  margin-top: 0.55rem;
-  font-size: clamp(2.1rem, 5.2vw, 3.8rem);
-  line-height: 0.95;
+.epoch-prize-label span {
+  display: block;
 }
 
-.epoch-prize-feature h3 span {
-  color: var(--epoch-accent);
+.epoch-prize-sub {
+  grid-area: sub;
+  z-index: 1;
+  color: rgba(52, 35, 5, 0.95);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.66rem;
+}
+
+.epoch-prize-amount {
+  grid-area: amount;
+  z-index: 1;
+  justify-self: center;
+  color: #201602;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(3.4rem, 11vw, 8.4rem);
+  letter-spacing: 0.01em;
+  line-height: 0.86;
+}
+
+.epoch-prize-list {
+  grid-area: list;
+  z-index: 1;
+  list-style: none;
+  display: grid;
+  gap: 0.3rem;
+  justify-self: end;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+  color: rgba(43, 30, 4, 0.95);
+}
+
+.epoch-prize-list li::before {
+  content: "+ ";
 }
 
 .epoch-spoil-card {
@@ -2540,6 +2598,28 @@ select.register-control {
     display: none;
   }
 
+  .epoch-prize-feature {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "left"
+      "amount"
+      "list"
+      "sub";
+    min-height: auto;
+    gap: 0.45rem;
+  }
+
+  .epoch-prize-watermark {
+    left: 8%;
+    top: 2%;
+    font-size: clamp(5.4rem, 20vw, 9rem);
+  }
+
+  .epoch-prize-amount,
+  .epoch-prize-list {
+    justify-self: start;
+  }
+
   .epoch-track-card,
   .epoch-spoil-card {
     grid-column: span 6;
@@ -2580,6 +2660,18 @@ select.register-control {
 
   .epoch-section {
     padding: 3.3rem 0;
+  }
+
+  .epoch-prize-label {
+    font-size: clamp(2rem, 13vw, 2.9rem);
+  }
+
+  .epoch-prize-amount {
+    font-size: clamp(3.1rem, 18vw, 4.5rem);
+  }
+
+  .epoch-prize-list {
+    font-size: 0.62rem;
   }
 
   .epoch-track-card,

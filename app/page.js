@@ -33,6 +33,24 @@ const tracks = [
   },
 ];
 
+const podiumPrizes = [
+  {
+    rank: "First Prize",
+    amount: "₹50,000",
+    note: "Champion team reward",
+  },
+  {
+    rank: "Second Prize",
+    amount: "₹30,000",
+    note: "Runner-up reward",
+  },
+  {
+    rank: "Third Prize",
+    amount: "₹20,000",
+    note: "Second runner-up reward",
+  },
+];
+
 const chronology = [
   {
     time: "11:00 AM",
@@ -275,6 +293,16 @@ export default function HomePage() {
             <li>Mentorship access</li>
           </ul>
         </article>
+
+        <div className="epoch-spoil-grid">
+          {podiumPrizes.map((item) => (
+            <article className="epoch-spoil-card" key={item.rank}>
+              <p className="epoch-card-code">{item.rank}</p>
+              <h4>{item.amount}</h4>
+              <small>{item.note}</small>
+            </article>
+          ))}
+        </div>
 
         <a className="epoch-btn" href="/register">
           Register Now

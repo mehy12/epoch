@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const resultDate = new Date("2026-04-28T00:00:00+05:30").getTime();
+const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/D7uEE3yTIq8DkRp03KOwYp";
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -70,6 +71,15 @@ export default function RegisterSuccessPage() {
             ? "Screening results are being announced now."
             : "Countdown to screening results"}
         </p>
+
+        <div className="register-success-whatsapp">
+          <p className="register-success-whatsapp-note">
+            Join the official WhatsApp group for announcements and updates.
+          </p>
+          <a href={WHATSAPP_GROUP_URL} target="_blank" rel="noreferrer" className="btn btn-primary">
+            Join WhatsApp Group
+          </a>
+        </div>
 
         <div className="register-success-actions">
           <Link href="/" className="btn btn-primary">

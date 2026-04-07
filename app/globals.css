@@ -2089,6 +2089,26 @@ select.register-control {
   font-size: 0.62rem;
 }
 
+.register-success-whatsapp {
+  margin-top: 0.9rem;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.08);
+  padding: 0.72rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.register-success-whatsapp-note {
+  color: #f2d8a3;
+  font-size: 0.78rem;
+  max-width: 60ch;
+}
+
+.register-success-whatsapp .btn {
+  width: fit-content;
+  min-width: 220px;
+}
+
 .register-success-actions {
   margin-top: 1rem;
   display: flex;
@@ -2154,7 +2174,8 @@ select.register-control {
   }
 
   .register-success-actions .btn,
-  .register-success-secondary {
+  .register-success-secondary,
+  .register-success-whatsapp .btn {
     width: 100%;
   }
 }

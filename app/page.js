@@ -37,17 +37,17 @@ const tracks = [
 const podiumPrizes = [
   {
     rank: "First Prize",
-    amount: "₹50,000",
+    amount: "3 × ₹50,000",
     note: "Per domain champion reward",
   },
   {
     rank: "Second Prize",
-    amount: "₹30,000",
+    amount: "3 × ₹30,000",
     note: "Per domain runner-up reward",
   },
   {
     rank: "Third Prize",
-    amount: "₹20,000",
+    amount: "3 × ₹20,000",
     note: "Per domain second runner-up reward",
   },
 ];

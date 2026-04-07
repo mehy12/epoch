@@ -2883,6 +2883,23 @@ select.register-control {
   padding-bottom: 0.68rem;
 }
 
+.epoch-faq-more {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.epoch-faq-more p {
+  color: #ddd4c1;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .epoch-footer {
   display: flex;
   justify-content: space-between;
@@ -3296,6 +3313,14 @@ select.register-control {
   gap: 0.95rem;
 }
 
+.faq-page-content {
+  width: min(1080px, 94vw);
+}
+
+.faq-page-board {
+  margin-top: 0.25rem;
+}
+
 .rules-main-title {
   margin-top: 0;
   font-size: clamp(2.5rem, 8vw, 5.2rem);
@@ -3366,6 +3391,10 @@ select.register-control {
 }
 
 @media (max-width: 760px) {
+  .epoch-faq-more {
+    align-items: flex-start;
+  }
+
   .rules-page-content {
     width: min(1080px, 94vw);
   }

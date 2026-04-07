@@ -37,17 +37,17 @@ const podiumPrizes = [
   {
     rank: "First Prize",
     amount: "₹50,000",
-    note: "Champion team reward",
+    note: "Per domain champion reward",
   },
   {
     rank: "Second Prize",
     amount: "₹30,000",
-    note: "Runner-up reward",
+    note: "Per domain runner-up reward",
   },
   {
     rank: "Third Prize",
     amount: "₹20,000",
-    note: "Second runner-up reward",
+    note: "Per domain second runner-up reward",
   },
 ];
 
@@ -308,12 +308,12 @@ export default function HomePage() {
             <span>Prize</span>
             <span>Pool</span>
           </p>
-          <p className="epoch-prize-sub">Total valuation in INR</p>
+          <p className="epoch-prize-sub">Total valuation in INR | ₹1,00,000 per domain</p>
           <p className="epoch-prize-amount">₹3,00,000</p>
           <ul className="epoch-prize-list">
-            <li>Cash prize for winners</li>
-            <li>Incubation opportunities</li>
-            <li>Mentorship access</li>
+            <li>Per domain split: ₹50k + ₹30k + ₹20k</li>
+            <li>Across 3 domains: ₹3,00,000 total</li>
+            <li>Incubation and mentorship access</li>
           </ul>
         </article>
 

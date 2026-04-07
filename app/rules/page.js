@@ -94,7 +94,7 @@ const sections = [
     title: "10. Prizes",
     points: [
       "Total Prize Pool: Rs 3,00,000.",
-      "Rs 1,00,000 for the winner of each track.",
+      "Rs 1,00,000 per track, split as Rs 50,000 (1st), Rs 30,000 (2nd), and Rs 20,000 (3rd).",
       "Goodies worth Rs 10,000 for select participants.",
       "Prizes are non-transferable and will be awarded at the Valedictory Ceremony at 1:00 PM on May 2.",
       "Tax deductions, if applicable, will be as per Government of India norms.",

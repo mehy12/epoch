@@ -95,7 +95,7 @@ const faqSections = [
     items: [
       {
         q: "What is the prize pool?",
-        a: "₹3,00,000 total prize pool.",
+        a: "₹3,00,000 total across 3 domains, with ₹1,00,000 per domain split as ₹50,000, ₹30,000, and ₹20,000.",
       },
     ],
   },

@@ -3390,13 +3390,326 @@ select.register-control {
   font-size: 0.88rem;
 }
 
+.contact-page-shell {
+  min-height: 100vh;
+  padding: clamp(2.8rem, 6vw, 4.6rem) 0 3.4rem;
+}
+
+.contact-page-content {
+  width: min(1160px, 92vw);
+  margin: 0 auto;
+}
+
+.contact-eyebrow {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.34em;
+  font-size: 0.62rem;
+}
+
+.contact-title {
+  margin-top: 0.4rem;
+  font-size: clamp(2.9rem, 8.8vw, 5.9rem);
+  line-height: 0.9;
+}
+
+.contact-title span {
+  color: var(--accent);
+}
+
+.contact-subtitle {
+  margin-top: 0.7rem;
+  color: #9d865d;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+}
+
+.contact-grid {
+  margin-top: 1.7rem;
+  display: grid;
+  grid-template-columns: 0.98fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.contact-left-stack {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.contact-card {
+  border: 1px solid rgba(245, 158, 11, 0.32);
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0.96), rgba(8, 8, 8, 0.98));
+  padding: clamp(0.95rem, 2.3vw, 1.25rem);
+}
+
+.contact-card-label {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.58rem;
+  margin-bottom: 0.8rem;
+}
+
+.contact-committee-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.72rem;
+}
+
+.contact-mini-card {
+  border: 1px solid rgba(245, 158, 11, 0.26);
+  background: rgba(20, 13, 2, 0.2);
+  padding: 0.65rem;
+}
+
+.contact-mini-role {
+  color: #e6bf72;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.56rem;
+}
+
+.contact-mini-name {
+  margin-top: 0.4rem;
+  color: #f2eee5;
+  font-family: var(--font-heading), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 1.5rem;
+  line-height: 0.95;
+}
+
+.contact-mini-phone {
+  margin-top: 0.42rem;
+  color: #e8b154;
+  font-size: 0.72rem;
+}
+
+.contact-reach-list {
+  display: grid;
+  gap: 0.82rem;
+}
+
+.contact-reach-item {
+  border-left: 2px solid rgba(245, 158, 11, 0.34);
+  padding-left: 0.65rem;
+}
+
+.contact-reach-head {
+  color: #d8ae59;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.56rem;
+}
+
+.contact-reach-main,
+.contact-reach-sub {
+  display: block;
+  text-decoration: none;
+}
+
+.contact-reach-main {
+  margin-top: 0.12rem;
+  color: #f4f1ea;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.contact-reach-sub {
+  margin-top: 0.1rem;
+  color: #a99778;
+  font-size: 0.74rem;
+}
+
+.contact-social-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.62rem;
+}
+
+.contact-social-chip {
+  border: 1px solid rgba(245, 158, 11, 0.34);
+  background: rgba(14, 14, 14, 0.8);
+  text-decoration: none;
+  color: #f1eee7;
+  min-height: 60px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.2rem;
+}
+
+.contact-social-chip:hover,
+.contact-social-chip:focus-visible {
+  border-color: rgba(245, 158, 11, 0.65);
+  color: #ffcf78;
+}
+
+.contact-social-chip small {
+  color: #e0b15a;
+  letter-spacing: 0.14em;
+  font-size: 0.58rem;
+}
+
+.contact-social-chip span {
+  font-size: 0.84rem;
+}
+
+.contact-map-card {
+  margin-top: 0.68rem;
+  border: 1px solid rgba(245, 158, 11, 0.34);
+  background: linear-gradient(180deg, rgba(17, 12, 3, 0.5), rgba(8, 8, 8, 0.5));
+  text-decoration: none;
+  color: #f5f1e9;
+  padding: 0.85rem;
+  display: grid;
+  gap: 0.16rem;
+}
+
+.contact-map-kicker {
+  color: #e0ac4e;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.58rem;
+}
+
+.contact-map-main {
+  color: #f5f1e9;
+  font-size: 0.94rem;
+}
+
+.contact-map-sub {
+  color: #afa18a;
+  font-size: 0.78rem;
+}
+
+.contact-form-card {
+  min-height: 100%;
+  align-content: start;
+}
+
+.contact-field {
+  display: grid;
+  gap: 0.34rem;
+  margin-bottom: 0.8rem;
+}
+
+.contact-label {
+  color: #f2cf8f;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.56rem;
+}
+
+.contact-control {
+  width: 100%;
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  background: linear-gradient(90deg, rgba(35, 35, 35, 0.86), rgba(59, 59, 59, 0.7));
+  color: #f7f3eb;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.95rem;
+  padding: 0.52rem 0.72rem;
+  min-height: 46px;
+}
+
+.contact-control::placeholder {
+  color: #c8c0b1;
+}
+
+.contact-control:focus-visible {
+  outline: none;
+  border-color: rgba(245, 158, 11, 0.7);
+  box-shadow: 0 8px 18px rgba(245, 158, 11, 0.12);
+}
+
+.contact-textarea {
+  min-height: 126px;
+  resize: vertical;
+}
+
+.contact-submit {
+  margin-top: 0.2rem;
+  width: 100%;
+  border: 1px solid rgba(245, 158, 11, 0.36);
+  background: transparent;
+  color: #f4efe5;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-family: var(--font-heading), sans-serif;
+  font-size: 0.86rem;
+  min-height: 46px;
+  cursor: pointer;
+}
+
+.contact-submit:hover,
+.contact-submit:focus-visible {
+  border-color: rgba(245, 158, 11, 0.74);
+  color: #ffcf78;
+  box-shadow: 0 10px 24px rgba(245, 158, 11, 0.12);
+}
+
+.contact-form-note {
+  margin-top: 0.78rem;
+  color: #8f7f62;
+  text-align: center;
+  font-size: 0.72rem;
+}
+
+.contact-footer {
+  margin-top: 1.6rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgba(245, 158, 11, 0.18);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.contact-footer p {
+  color: #77674a;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.6rem;
+}
+
 @media (max-width: 760px) {
   .epoch-faq-more {
     align-items: flex-start;
   }
 
+  .contact-page-content,
   .rules-page-content {
     width: min(1080px, 94vw);
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .contact-committee-grid,
+  .contact-social-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-mini-name {
+    font-size: 1.3rem;
+  }
+
+  .contact-control {
+    font-size: 0.92rem;
+  }
+
+  .contact-submit {
+    letter-spacing: 0.2em;
+    font-size: 0.78rem;
+  }
+
+  .contact-footer {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   .rules-list li,

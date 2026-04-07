@@ -223,6 +223,7 @@ export default function HomePage() {
             </a>
           ))}
           <a href="/rules">Rules</a>
+          <a href="/contact">Contact</a>
         </nav>
         <a className="epoch-btn epoch-btn-compact" href="/register">
           Register Now
@@ -424,6 +425,7 @@ export default function HomePage() {
           <a href="#spoils">Spoils</a>
           <a href="/faq">FAQ</a>
           <a href="/rules">Rules</a>
+          <a href="/contact">Contact</a>
           <a href="/register">Register</a>
         </div>
       </footer>

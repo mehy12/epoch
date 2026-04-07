@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import CollegeCombobox from "@/components/ui/college-combobox";
 import { collegeOptions } from "@/lib/college-options";
+import { ROUND1_PPT_TEMPLATE_URL } from "@/lib/event-links";
 
 const smoothEase = [0.22, 1, 0.36, 1];
 
@@ -1007,9 +1008,19 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="register-field">
-                  <label className="register-label" htmlFor="pptLink">
-                    PPT / Presentation Link (Google Drive) <span className="register-required">*</span>
-                  </label>
+                  <div className="register-label-row">
+                    <label className="register-label" htmlFor="pptLink">
+                      PPT / Presentation Link (Google Drive) <span className="register-required">*</span>
+                    </label>
+                    <a
+                      className="register-template-link"
+                      href={ROUND1_PPT_TEMPLATE_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Download Template
+                    </a>
+                  </div>
                   <input
                     id="pptLink"
                     className={`register-control${getError("idea.pptLink") ? " is-invalid" : ""}`}

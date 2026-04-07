@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ROUND1_PPT_TEMPLATE_URL } from "@/lib/event-links";
 
 const launchTime = new Date("2026-05-01T11:00:00+05:30").getTime();
 const endTime = new Date("2026-05-02T11:00:00+05:30").getTime();
@@ -364,6 +365,18 @@ export default function HomePage() {
               </ul>
             </article>
           ))}
+        </div>
+
+        <div className="epoch-template-link-row">
+          <p className="epoch-subcopy">Round 1 idea submission PPT template</p>
+          <a
+            className="epoch-btn epoch-btn-compact"
+            href={ROUND1_PPT_TEMPLATE_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Download PPT Template
+          </a>
         </div>
 
         <a className="epoch-btn" href="/register">

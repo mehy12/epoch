@@ -2757,12 +2757,45 @@ select.register-control {
 .epoch-round-card li {
   font-size: 0.74rem;
 }
+.epoch-template-link-row {
+  margin-top: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.epoch-template-link-row .epoch-subcopy {
+  margin-top: 0;
+}
 
 .epoch-logs {
   margin-top: 1.1rem;
   display: grid;
   gap: 0.7rem;
 }
+.register-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.register-template-link {
+  color: #f2c06a;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6rem;
+  text-decoration: none;
+  border: 1px solid rgba(245, 158, 11, 0.42);
+  background: rgba(245, 158, 11, 0.1);
+  padding: 0.34rem 0.58rem;
+}
+.register-template-link:hover,
+.register-template-link:focus-visible {
+  background: rgba(245, 158, 11, 0.18);
+  color: #ffd58b;
 
 .epoch-log {
   padding: 0.78rem 0.88rem;
@@ -3208,6 +3241,9 @@ select.register-control {
   .epoch-round-price,
   .epoch-spoil-card h4 {
     font-size: clamp(2.1rem, 10vw, 2.7rem);
+  }
+.epoch-template-link-row {
+    align-items: flex-start;
   }
 
   .epoch-log-trigger strong {

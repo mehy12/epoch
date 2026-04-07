@@ -222,6 +222,7 @@ export default function HomePage() {
               {item.label}
             </a>
           ))}
+          <a href="/rules">Rules</a>
         </nav>
         <a className="epoch-btn epoch-btn-compact" href="/register">
           Register Now

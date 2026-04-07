@@ -135,6 +135,85 @@ export default function RegisterPage() {
 
   const getError = (path) => (submitAttempted ? errors[path] : "");
 
+  const getSectionIdForError = (path) => {
+    if (!path) {
+      return "team-info";
+    }
+
+    if (path.startsWith("teamInfo.")) {
+      return "team-info";
+    }
+
+    if (path.startsWith("leader.")) {
+      return "team-leader";
+    }
+
+    if (path.startsWith("members.")) {
+      return "team-members";
+    }
+
+    if (path.startsWith("idea.")) {
+      return "idea-submission";
+    }
+
+    if (path.startsWith("declaration.")) {
+      return "declaration";
+    }
+
+    return "team-info";
+  };
+
+  const getFieldIdForError = (path) => {
+    if (!path) {
+      return null;
+    }
+
+    const directMap = {
+      "teamInfo.teamName": "teamName",
+      "teamInfo.track": "track",
+      "teamInfo.teamSize": "teamSize",
+      "leader.fullName": "leaderFullName",
+      "leader.email": "leaderEmail",
+      "leader.mobile": "leaderMobile",
+      "leader.collegeName": "leaderCollegeName",
+      "leader.department": "leaderDepartment",
+      "leader.yearOfStudy": "leaderYearOfStudy",
+      "leader.usn": "leaderUsn",
+      "leader.ieeeId": "leaderIeeeId",
+      "idea.description": "ideaDescription",
+      "idea.pptLink": "pptLink",
+      "declaration.infoAccurate": "declarationInfoAccurate",
+      "declaration.agreeTerms": "declarationAgreeTerms",
+    };
+
+    if (directMap[path]) {
+      return directMap[path];
+    }
+
+    const memberMatch = path.match(/^members\.(\d+)\.(.+)$/);
+    if (!memberMatch) {
+      return null;
+    }
+
+    const memberNumber = memberMatch[1];
+    const field = memberMatch[2];
+    const suffixMap = {
+      fullName: "FullName",
+      email: "Email",
+      usn: "Usn",
+      ieeeId: "IeeeId",
+      department: "Department",
+      yearOfStudy: "YearOfStudy",
+    };
+
+    const suffix = suffixMap[field];
+    if (!suffix) {
+      return null;
+    }
+
+    return `member${memberNumber}${suffix}`;
+  };
+
   const validateForm = (data) => {
     const next = {};
 
@@ -295,6 +374,40 @@ export default function RegisterPage() {
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
+      const firstErrorPath = Object.keys(nextErrors)[0];
+      const targetSectionId = getSectionIdForError(firstErrorPath);
+      const sectionNode = sectionRefs.current[targetSectionId];
+
+      if (sectionNode) {
+        sectionNode.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        });
+        setActiveSection(targetSectionId);
+      }
+
+      window.requestAnimationFrame(() => {
+        const explicitFieldId = getFieldIdForError(firstErrorPath);
+        const explicitField = explicitFieldId ? document.getElementById(explicitFieldId) : null;
+
+        if (explicitField && typeof explicitField.focus === "function") {
+          explicitField.focus({ preventScroll: true });
+          return;
+        }
+
+        if (!sectionNode) {
+          return;
+        }
+
+        const fallbackField = sectionNode.querySelector(
+          "input.is-invalid, select.is-invalid, textarea.is-invalid, .register-checkitem.is-invalid input[type='checkbox']"
+        );
+
+        if (fallbackField && typeof fallbackField.focus === "function") {
+          fallbackField.focus({ preventScroll: true });
+        }
+      });
+
       return;
     }
 
@@ -930,6 +1043,7 @@ export default function RegisterPage() {
                   }`}
                 >
                   <input
+                    id="declarationInfoAccurate"
                     type="checkbox"
                     checked={formData.declaration.infoAccurate}
                     onChange={(event) => updateDeclaration("infoAccurate", event.target.checked)}
@@ -946,6 +1060,7 @@ export default function RegisterPage() {
                   }`}
                 >
                   <input
+                    id="declarationAgreeTerms"
                     type="checkbox"
                     checked={formData.declaration.agreeTerms}
                     onChange={(event) => updateDeclaration("agreeTerms", event.target.checked)}

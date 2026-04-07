@@ -267,9 +267,6 @@ export default function HomePage() {
             </article>
           ))}
         </div>
-        <a className="epoch-btn" href="/register">
-          Register Now
-        </a>
       </section>
 
       <section className="epoch-section" id="spoils">
@@ -306,10 +303,6 @@ export default function HomePage() {
             </article>
           ))}
         </div>
-
-        <a className="epoch-btn" href="/register">
-          Register Now
-        </a>
       </section>
 
       <section className="epoch-section" id="chronology">

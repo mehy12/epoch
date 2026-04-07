@@ -467,7 +467,7 @@ export default function HomePage() {
         <h2>
           Access <span>Protocols</span>
         </h2>
-        <p className="epoch-subcopy">Registrations are team based. Complete payment of ₹500 with UTR and screenshot proof.</p>
+        <p className="epoch-subcopy">Registrations are team based. Teams selected based on their proposals, will be notified.</p>
 
         <div className="epoch-rounds-grid">
           {rounds.map((round) => (
@@ -536,6 +536,7 @@ export default function HomePage() {
           <a href="#top">Home</a>
           <a href="#tracks">Disciplines</a>
           <a href="#spoils">Spoils</a>
+          <a href="/rules">Rules</a>
           <a href="/register">Register</a>
         </div>
       </footer>

@@ -2064,14 +2064,15 @@ select.register-control {
 }
 
 .epoch-topbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   padding: 1rem 0;
 }
 
 .epoch-brand {
+  justify-self: start;
   color: #f5f5f5;
   text-decoration: none;
   font-size: 1.1rem;
@@ -2080,7 +2081,12 @@ select.register-control {
 .epoch-nav {
   display: flex;
   align-items: center;
+  justify-self: center;
   gap: 1.15rem;
+}
+
+.epoch-topbar .epoch-btn-compact {
+  justify-self: end;
 }
 
 .epoch-nav a {
@@ -2132,7 +2138,9 @@ select.register-control {
   min-height: calc(100vh - 70px);
   padding-block: clamp(4.5rem, 8.5vw, 6.8rem);
   display: grid;
+  align-content: center;
   justify-items: center;
+  gap: 0.45rem;
   text-align: center;
 }
 
@@ -2144,7 +2152,7 @@ select.register-control {
 }
 
 .epoch-hero h1 {
-  margin-top: 0.7rem;
+  margin-top: 0.25rem;
   font-size: clamp(4rem, 14vw, 8.6rem);
   line-height: 0.9;
 }
@@ -2154,8 +2162,10 @@ select.register-control {
 }
 
 .epoch-countdown-wrap {
-  margin-top: 1.25rem;
+  margin-top: 0.8rem;
   width: min(620px, 100%);
+  display: grid;
+  justify-items: center;
 }
 
 .epoch-phase {
@@ -2163,10 +2173,14 @@ select.register-control {
   font-size: 0.62rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  width: 100%;
+  margin: 0;
+  text-align: center;
 }
 
 .epoch-countdown-grid {
   margin-top: 0.7rem;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.65rem;
@@ -2209,15 +2223,33 @@ select.register-control {
 }
 
 .epoch-status {
-  margin-top: 0.7rem;
+  margin-top: 0.55rem;
   min-height: 1.4em;
   font-size: 0.72rem;
+  width: 100%;
+  margin-inline: auto;
+  text-align: center;
 }
 
 .epoch-meta {
   margin-top: 0.9rem;
-  font-size: 0.64rem;
-  letter-spacing: 0.12em;
+  display: grid;
+  gap: 0.3rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.epoch-meta-date {
+  color: #f2c06a;
+  font-size: clamp(0.74rem, 1.5vw, 0.92rem);
+  letter-spacing: 0.16em;
+}
+
+.epoch-meta-venue {
+  color: #ddd8cc;
+  font-size: clamp(0.82rem, 1.7vw, 1rem);
+  letter-spacing: 0.09em;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -2634,6 +2666,7 @@ select.register-control {
 @media (max-width: 760px) {
   .epoch-topbar {
     width: min(1160px, 94vw);
+    display: flex;
     padding: 0.8rem 0;
     flex-wrap: wrap;
   }
@@ -2652,6 +2685,21 @@ select.register-control {
   .epoch-hero {
     min-height: auto;
     padding-block: 4.2rem 3.6rem;
+    gap: 0.32rem;
+  }
+
+  .epoch-meta {
+    gap: 0.18rem;
+  }
+
+  .epoch-meta-date {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+  }
+
+  .epoch-meta-venue {
+    font-size: 0.76rem;
+    letter-spacing: 0.07em;
   }
 
   .epoch-countdown-grid {

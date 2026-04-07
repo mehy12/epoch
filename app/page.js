@@ -132,7 +132,7 @@ function getTimerState() {
   if (now < launchTime) {
     return {
       totalMs: launchTime - now,
-      phase: "Time Starts In",
+      phase: "Starts In",
       status: "Registrations are open. Finals begin on May 1 at 11:00 AM.",
     };
   }
@@ -168,7 +168,7 @@ function splitTime(totalMs) {
 
 export default function HomePage() {
   const [timer, setTimer] = useState({ days: "00", hours: "00", minutes: "00", seconds: "00" });
-  const [phase, setPhase] = useState("Time Starts In");
+  const [phase, setPhase] = useState("Starts In");
   const [status, setStatus] = useState("Registrations are open. Finals begin on May 1 at 11:00 AM.");
   const [activeLog, setActiveLog] = useState(0);
 
@@ -236,7 +236,10 @@ export default function HomePage() {
           <p className="epoch-status">{status}</p>
         </div>
 
-        <p className="epoch-meta">May 1-2, 2026 at Vemana Institute of Technology, Bengaluru</p>
+        <p className="epoch-meta">
+          <span className="epoch-meta-date">May 1-2, 2026</span>
+          <span className="epoch-meta-venue">Vemana Institute of Technology, Bengaluru</span>
+        </p>
 
         <a className="epoch-btn" href="/register">
           Register Now

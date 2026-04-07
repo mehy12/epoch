@@ -3,6 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
+import CollegeCombobox from "@/components/ui/college-combobox";
+import { collegeOptions } from "@/lib/college-options";
 
 const smoothEase = [0.22, 1, 0.36, 1];
 
@@ -45,6 +47,7 @@ function initialFormData() {
       email: "",
       mobile: "",
       collegeName: "",
+      collegeManual: false,
       department: "",
       yearOfStudy: "",
       usn: "",
@@ -643,14 +646,23 @@ export default function RegisterPage() {
                   <label className="register-label" htmlFor="leaderCollegeName">
                     College Name <span className="register-required">*</span>
                   </label>
-                  <input
+                  <CollegeCombobox
                     id="leaderCollegeName"
-                    className={`register-control${getError("leader.collegeName") ? " is-invalid" : ""}`}
-                    type="text"
                     value={formData.leader.collegeName}
-                    onChange={(event) => updateLeader("collegeName", event.target.value)}
-                    aria-invalid={Boolean(getError("leader.collegeName"))}
-                    aria-describedby={getError("leader.collegeName") ? "leaderCollegeName-error" : undefined}
+                    manualMode={Boolean(formData.leader.collegeManual)}
+                    colleges={collegeOptions}
+                    error={getError("leader.collegeName")}
+                    placeholder="Search your college..."
+                    onChange={({ collegeName, collegeManual }) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        leader: {
+                          ...prev.leader,
+                          collegeName,
+                          collegeManual,
+                        },
+                      }));
+                    }}
                   />
                   {getError("leader.collegeName") ? (
                     <p id="leaderCollegeName-error" className="register-error">

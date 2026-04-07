@@ -1716,6 +1716,93 @@ p + p {
   box-shadow: 0 9px 20px rgba(245, 158, 11, 0.18);
 }
 
+.register-college-combobox {
+  position: relative;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.register-combobox-input {
+  padding-right: 2.2rem;
+}
+
+.register-college-popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 80;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.98), rgba(10, 10, 10, 0.98));
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.36);
+}
+
+.register-college-options {
+  max-height: 250px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.register-college-option {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  cursor: pointer;
+  padding: 0.62rem 0.72rem;
+}
+
+.register-college-option:hover,
+.register-college-option.active {
+  background: rgba(245, 158, 11, 0.14);
+  color: #ffd58b;
+}
+
+.register-college-option-subtle {
+  color: #f2c06a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+}
+
+.register-college-empty {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8rem;
+  padding: 0.72rem;
+}
+
+.register-manual-college-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.register-college-back {
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.12);
+  color: #f2c06a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.62rem;
+  min-height: 34px;
+  padding: 0.36rem 0.64rem;
+  cursor: pointer;
+}
+
+.register-college-back:hover,
+.register-college-back:focus-visible {
+  background: rgba(245, 158, 11, 0.2);
+}
+
 select.register-control {
   appearance: none;
   padding-right: 2rem;

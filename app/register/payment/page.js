@@ -131,13 +131,15 @@ export default function RegisterPaymentPage() {
         body: JSON.stringify(payload),
       });
 
+      const responsePayload = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        const errorPayload = await response.json().catch(() => ({}));
-        throw new Error(errorPayload.error || "Could not complete registration after payment.");
+        throw new Error(responsePayload.error || "Could not complete registration after payment.");
       }
 
+      const teamId = responsePayload?.data?.teamId || "";
       window.sessionStorage.removeItem(DRAFT_KEY);
-      router.push("/register/success");
+      router.push(teamId ? `/register/success?teamId=${encodeURIComponent(teamId)}` : "/register/success");
     } catch (submitError) {
       setError(submitError.message || "Payment verification submission failed.");
     } finally {

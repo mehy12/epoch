@@ -87,6 +87,27 @@ function isGoogleDriveLink(value) {
   }
 }
 
+async function checkDuplicateLeaderRegistration({ email, mobile }) {
+  const response = await fetch("/api/register/check-duplicate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      phone: mobile,
+    }),
+  });
+
+  const payload = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(payload?.error || "Could not validate registration uniqueness.");
+  }
+
+  return payload;
+}
+
 export default function RegisterPage() {
   const router = useRouter();
   const reduceMotion = useReducedMotion();
@@ -417,6 +438,48 @@ export default function RegisterPage() {
 
     try {
       setIsSubmitting(true);
+
+      const duplicateCheck = await checkDuplicateLeaderRegistration({
+        email: formData?.leader?.email,
+        mobile: formData?.leader?.mobile,
+      });
+
+      if (duplicateCheck?.exists) {
+        const duplicateErrors = {};
+
+        if (duplicateCheck.matchesEmail) {
+          duplicateErrors["leader.email"] = "This email is already registered.";
+        }
+
+        if (duplicateCheck.matchesPhone) {
+          duplicateErrors["leader.mobile"] = "This mobile number is already registered.";
+        }
+
+        setErrors((prev) => ({
+          ...prev,
+          ...duplicateErrors,
+        }));
+
+        const duplicateIdSuffix = duplicateCheck?.teamId
+          ? ` Existing Team ID: ${duplicateCheck.teamId}.`
+          : "";
+
+        setSubmitError(
+          `This leader email/mobile is already registered. Please use the existing registration.${duplicateIdSuffix}`
+        );
+
+        const leaderSection = sectionRefs.current["team-leader"];
+        if (leaderSection) {
+          leaderSection.scrollIntoView({
+            behavior: reduceMotion ? "auto" : "smooth",
+            block: "start",
+          });
+          setActiveSection("team-leader");
+        }
+
+        return;
+      }
+
       window.sessionStorage.setItem("epoch-registration-draft", JSON.stringify(formData));
       router.push("/register/payment");
     } catch (error) {

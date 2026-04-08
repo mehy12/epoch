@@ -1,4 +1,36 @@
 import { NextResponse } from "next/server";
+import { assignTeamIdAfterRegistration, findTeamByIdentifier } from "@/lib/portal/sheets";
+
+function normalizeEmail(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase();
+}
+
+function normalizePhone(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
+async function findDuplicateRegistration(payload) {
+  const email = normalizeEmail(payload?.leader?.email);
+  const phone = normalizePhone(payload?.leader?.mobile);
+
+  if (email) {
+    const byEmail = await findTeamByIdentifier(email);
+    if (byEmail) {
+      return byEmail.record;
+    }
+  }
+
+  if (phone) {
+    const byPhone = await findTeamByIdentifier(phone);
+    if (byPhone) {
+      return byPhone.record;
+    }
+  }
+
+  return null;
+}
 
 function normalizePayload(payload) {
   const teamInfo = payload?.teamInfo ?? {};
@@ -81,6 +113,34 @@ export async function POST(request) {
   }
 
   const payload = normalizePayload(incomingPayload);
+
+  try {
+    const duplicate = await findDuplicateRegistration(payload);
+    if (duplicate) {
+      return NextResponse.json(
+        {
+          error:
+            "A team is already registered with this email or phone number. Please use the existing registration.",
+          duplicate: {
+            teamName: duplicate.teamName || "",
+            teamId: duplicate.teamId || "",
+            email: duplicate.email || "",
+            phone: duplicate.phone || "",
+          },
+        },
+        { status: 409 }
+      );
+    }
+  } catch (duplicateCheckError) {
+    return NextResponse.json(
+      {
+        error:
+          "Could not verify duplicate registration at the moment. Please try again in a few seconds.",
+        details: duplicateCheckError instanceof Error ? duplicateCheckError.message : "unknown",
+      },
+      { status: 503 }
+    );
+  }
 
   const upstreamPayload = {
     ...payload,
@@ -181,7 +241,25 @@ export async function POST(request) {
     }
 
     if (upstreamResponse.ok && typeof data === "object" && data && data.success === true) {
-      return NextResponse.json({ success: true, data });
+      let teamId = "";
+
+      try {
+        const generated = await assignTeamIdAfterRegistration({
+          email: payload?.leader?.email,
+          phone: payload?.leader?.mobile,
+        });
+        teamId = generated || "";
+      } catch {
+        teamId = "";
+      }
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          ...data,
+          teamId: data?.teamId || teamId,
+        },
+      });
     }
 
     return NextResponse.json(

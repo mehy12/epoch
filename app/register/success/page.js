@@ -28,9 +28,13 @@ function getTimeLeft() {
 }
 
 export default function RegisterSuccessPage() {
+  const [teamId, setTeamId] = useState("");
   const [timeLeft, setTimeLeft] = useState(getTimeLeft);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setTeamId(params.get("teamId") || "");
+
     const interval = setInterval(() => {
       setTimeLeft(getTimeLeft());
     }, 1000);
@@ -46,6 +50,15 @@ export default function RegisterSuccessPage() {
         <p className="register-success-message">
           EPOCH '26 — Registration Received. Screening results will be announced April 28.
         </p>
+
+        {teamId ? (
+          <div className="register-success-whatsapp" style={{ marginTop: "1rem" }}>
+            <p className="register-success-whatsapp-note">Your Team ID</p>
+            <p className="register-note" style={{ color: "#fff", fontSize: "1.2rem", fontWeight: 700 }}>
+              {teamId}
+            </p>
+          </div>
+        ) : null}
 
         <div className="register-success-countdown" aria-live="polite">
           <div className="register-success-timebox">
@@ -84,6 +97,12 @@ export default function RegisterSuccessPage() {
         <div className="register-success-actions">
           <Link href="/" className="btn btn-primary">
             Back to Home
+          </Link>
+          <Link href="/portal-access" className="register-success-secondary">
+            Create Portal Access
+          </Link>
+          <Link href="/login" className="register-success-secondary">
+            Participant Login
           </Link>
           <Link href="/register" className="register-success-secondary">
             Register Another Team

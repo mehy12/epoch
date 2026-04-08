@@ -1,0 +1,123 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useMemo, useState } from "react";
+
+export default function LoginClient() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const nextPath = useMemo(() => searchParams.get("next") || "/dashboard", [searchParams]);
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/portal/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ identifier, password }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || "Login failed.");
+      }
+
+      router.push(nextPath);
+      router.refresh();
+    } catch (loginError) {
+      setError(loginError instanceof Error ? loginError.message : "Login failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <main className="mx-auto flex min-h-screen w-full max-w-6xl items-start px-4 py-8 sm:px-6 sm:py-10 lg:items-center lg:py-14">
+      <section className="portal-panel mx-auto grid w-full max-w-5xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <article className="portal-card p-5 sm:p-8 lg:p-10">
+          <p className="portal-kicker">EPOCH '26 Participant Portal</p>
+          <h1 className="mt-3">Participant Login</h1>
+          <p className="portal-muted mt-3 max-w-lg text-sm">
+            Login with your registered email or mobile number and the password set during first-time access.
+          </p>
+
+          <form className="mt-6 space-y-4" onSubmit={onSubmit}>
+            <div>
+              <label className="block text-sm font-medium text-slate-700" htmlFor="identifier">
+                Registered Email or Mobile
+              </label>
+              <input
+                id="identifier"
+                type="text"
+                value={identifier}
+                onChange={(event) => setIdentifier(event.target.value)}
+                className="portal-input mt-1"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700" htmlFor="password">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="portal-input mt-1"
+                required
+              />
+            </div>
+
+            {error ? <p className="text-sm font-medium text-red-600">{error}</p> : null}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="portal-btn-primary inline-flex w-full items-center justify-center sm:w-auto disabled:opacity-70"
+            >
+              {loading ? "Logging in..." : "Login to Dashboard"}
+            </button>
+          </form>
+
+          <p className="portal-muted mt-5 text-sm">
+            First time here?{" "}
+            <Link href="/portal-access" className="portal-link">
+              Create portal access
+            </Link>
+          </p>
+        </article>
+
+        <article className="portal-card p-5 sm:p-8 lg:self-start lg:p-10">
+          <h2>Inside Your Portal</h2>
+          <ul className="portal-list portal-muted mt-5 space-y-2 text-sm">
+            <li>View full team registration details.</li>
+            <li>Track payment verification and submission status.</li>
+            <li>Upload or replace your Round 1 PPT submission.</li>
+            <li>Keep your Team ID ready for all communications.</li>
+          </ul>
+
+          <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm text-amber-900">
+            Round 1 PPT deadline: <span className="font-semibold">April 25, 2026</span>
+          </div>
+
+          <Link href="/" className="portal-btn-secondary mt-6 inline-flex w-full justify-center sm:w-auto">
+            Back to Home
+          </Link>
+        </article>
+      </section>
+    </main>
+  );
+}

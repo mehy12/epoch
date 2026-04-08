@@ -225,10 +225,16 @@ export default function HomePage() {
           ))}
           <a href="/rules">Rules</a>
           <a href="/contact">Contact</a>
+          <a href="/login">Portal Login</a>
         </nav>
-        <a className="epoch-btn epoch-btn-compact" href="/register">
-          Register Now
-        </a>
+        <div className="flex items-center gap-2">
+          <a className="epoch-btn epoch-btn-compact" href="/portal-access">
+            Portal Access
+          </a>
+          <a className="epoch-btn epoch-btn-compact" href="/register">
+            Register Now
+          </a>
+        </div>
       </header>
 
       <section className="epoch-hero">

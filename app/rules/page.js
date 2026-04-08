@@ -21,7 +21,7 @@ const sections = [
     title: "2. Registration",
     points: [
       "Teams must register online before April 25, 2026.",
-      "Registration fee for Round 1 is Rs 300 per team (non-refundable).",
+      "Registration fee for Round 1 is Rs 400 per team (non-refundable).",
       "Each participant can be part of only one team.",
       "Incomplete registrations will be rejected without notice.",
       "All details submitted during registration must be accurate. Misrepresentation will lead to disqualification.",
@@ -33,7 +33,7 @@ const sections = [
       "Teams must submit a PPT presentation and a brief idea description during registration.",
       "Submissions must be made via the registration form before the deadline.",
       "Shortlisted teams will be announced on April 28, 2026.",
-      "Shortlisted teams must pay an additional Rs 800 to confirm their spot in the finale.",
+      "Shortlisted teams must pay an additional Rs 1100 to confirm their spot in the finale.",
       "Non-payment by the deadline will result in forfeiture of the spot.",
       "Screening decisions by the panel are final and non-contestable.",
     ],

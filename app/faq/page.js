@@ -27,7 +27,7 @@ const faqSections = [
     items: [
       {
         q: "What is the registration fee?",
-        a: "₹500 per team for Round 1 and ₹1000 per team for Round 2 (only if shortlisted).",
+        a: "₹400 per team for Round 1 and ₹1100 per team for Round 2 (only if shortlisted).",
       },
       {
         q: "Is the fee refundable?",

@@ -160,14 +160,14 @@ export default function RegisterPaymentPage() {
             <p className="section-label">EPOCH '26</p>
             <h1>Payment Verification</h1>
             <p className="register-intro-copy">
-              Pay ₹500, upload screenshot proof, and enter UTR number to complete registration.
+              Pay ₹400, upload screenshot proof, and enter UTR number to complete registration.
             </p>
           </div>
 
           <div className="register-payment-grid">
             <article className="register-section register-payment-card">
               <p className="register-label">Step 1</p>
-              <h2 className="register-section-title">Scan QR and Pay ₹500</h2>
+              <h2 className="register-section-title">Scan QR and Pay ₹400</h2>
               <div className="register-qr-shell">
                 <img src={QR_IMAGE_URL} alt="Payment QR code" className="register-qr-image" />
               </div>
@@ -181,7 +181,7 @@ export default function RegisterPaymentPage() {
               {copyState === "failed" ? (
                 <p className="register-note">Could not copy. Please copy manually.</p>
               ) : null}
-              <p className="register-note">Amount must be exactly ₹500 per team.</p>
+              <p className="register-note">Amount must be exactly ₹400 per team.</p>
             </article>
 
             <form className="register-section register-payment-card" onSubmit={handleSubmit} noValidate>

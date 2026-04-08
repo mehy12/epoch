@@ -54,7 +54,7 @@ export default function LoginClient() {
 
           <form className="mt-6 space-y-4" onSubmit={onSubmit}>
             <div>
-              <label className="block text-sm font-medium text-slate-700" htmlFor="identifier">
+              <label className="portal-field-label" htmlFor="identifier">
                 Registered Email or Mobile
               </label>
               <input
@@ -68,7 +68,7 @@ export default function LoginClient() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700" htmlFor="password">
+              <label className="portal-field-label" htmlFor="password">
                 Password
               </label>
               <input
@@ -81,7 +81,7 @@ export default function LoginClient() {
               />
             </div>
 
-            {error ? <p className="text-sm font-medium text-red-600">{error}</p> : null}
+            {error ? <p className="portal-alert portal-alert-error">{error}</p> : null}
 
             <button
               type="submit"
@@ -109,7 +109,7 @@ export default function LoginClient() {
             <li>Keep your Team ID ready for all communications.</li>
           </ul>
 
-          <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm text-amber-900">
+          <div className="portal-callout mt-8">
             Round 1 PPT deadline: <span className="font-semibold">April 25, 2026</span>
           </div>
 

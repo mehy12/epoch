@@ -13,7 +13,7 @@ export default async function SubmitPage() {
         <section className="portal-card p-5 sm:p-6">
           <p className="portal-kicker">Round 1 Submission</p>
           <h2 className="mt-2">Submit Your Final PPT</h2>
-          <p className="mt-3 text-sm text-slate-700">
+          <p className="portal-deadline mt-3">
             Deadline: <span className="font-semibold">{PORTAL_PPT_DEADLINE}</span>
           </p>
           <p className="portal-muted mt-2 text-sm">

@@ -88,7 +88,7 @@ export default function PortalAccessPage() {
           </p>
 
           <form className="mt-6 space-y-4" onSubmit={onVerify}>
-            <label className="block text-sm font-medium text-slate-700" htmlFor="identifier">
+            <label className="portal-field-label" htmlFor="identifier">
               Registered Email or Mobile Number
             </label>
             <input
@@ -110,8 +110,8 @@ export default function PortalAccessPage() {
           </form>
 
           {verifyResult ? (
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-800">
-              <p className="text-base font-semibold text-slate-900">{verifyResult.teamName || "Team"}</p>
+            <div className="portal-alert portal-alert-info mt-6">
+              <p className="portal-value portal-value-compact">{verifyResult.teamName || "Team"}</p>
               <p className="mt-1">Team ID: {verifyResult.teamId || "Generating..."}</p>
               <p className="mt-1">Payment Status: {verifyResult.paymentStatus || "Pending"}</p>
               <p className="portal-muted mt-2">{verifyResult.reason}</p>
@@ -119,7 +119,7 @@ export default function PortalAccessPage() {
           ) : null}
 
           {verifyResult?.portalEnabled ? (
-            <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+            <div className="portal-alert portal-alert-success mt-5">
               Portal access is already enabled for this team. Continue to login.
             </div>
           ) : null}
@@ -127,7 +127,7 @@ export default function PortalAccessPage() {
           {verifyResult?.exists && !verifyResult.portalEnabled ? (
             <form className="mt-6 space-y-4" onSubmit={onCreatePassword}>
               <div>
-                <label className="block text-sm font-medium text-slate-700" htmlFor="password">
+                <label className="portal-field-label" htmlFor="password">
                   Create Password
                 </label>
                 <input
@@ -142,7 +142,7 @@ export default function PortalAccessPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700" htmlFor="confirmPassword">
+                <label className="portal-field-label" htmlFor="confirmPassword">
                   Confirm Password
                 </label>
                 <input
@@ -166,7 +166,7 @@ export default function PortalAccessPage() {
             </form>
           ) : null}
 
-          {error ? <p className="mt-4 text-sm font-medium text-red-600">{error}</p> : null}
+          {error ? <p className="portal-alert portal-alert-error mt-4">{error}</p> : null}
         </article>
 
         <article className="portal-card p-5 sm:p-8 lg:self-start lg:p-10">
@@ -178,7 +178,7 @@ export default function PortalAccessPage() {
             <li>Once set, use login for future access.</li>
           </ul>
 
-          <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+          <div className="portal-callout mt-8">
             Need access help? Reach out through the contact channels on the main EPOCH '26 website.
           </div>
 

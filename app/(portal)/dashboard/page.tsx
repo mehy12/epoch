@@ -94,13 +94,13 @@ export default async function DashboardPage() {
 
           <article className="portal-card p-5">
             <p className="portal-label">Deadline Reminder</p>
-            <p className="mt-3 text-sm font-semibold text-slate-900">Round 1 PPT Deadline: {PORTAL_PPT_DEADLINE}</p>
+            <p className="portal-deadline mt-3">Round 1 PPT Deadline: {PORTAL_PPT_DEADLINE}</p>
           </article>
         </section>
 
-        <section className="rounded-2xl border border-amber-200 bg-amber-50/60 p-5 shadow-sm sm:p-6">
+        <section className="portal-callout-block p-5 sm:p-6">
           <h2 className="text-3xl sm:text-4xl">Important Instructions</h2>
-          <ul className="portal-list mt-3 space-y-2 text-sm text-slate-700">
+          <ul className="portal-list portal-muted mt-3 space-y-2 text-sm">
             <li>Round 1 requires PPT submission.</li>
             <li>Only one final PPT submission per team will be considered.</li>
             <li>PPT is mandatory for screening.</li>

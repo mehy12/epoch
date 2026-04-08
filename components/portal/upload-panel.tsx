@@ -77,14 +77,11 @@ export default function UploadPanel({ profile }: UploadPanelProps) {
     <section className="portal-card p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:items-center">
         <div>
-          <h3 className="text-2xl text-slate-900 sm:text-3xl">Upload Round 1 PPT</h3>
+          <h3 className="portal-card-heading">Upload Round 1 PPT</h3>
           <p className="portal-muted text-sm">Accepted: .ppt, .pptx, .pdf (max 20MB)</p>
         </div>
-        <span
-          className={`rounded-full px-3 py-1 text-xs font-semibold ${
-            submitted ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
-          }`}
-        >
+        <span className={`portal-pill ${submitted ? "portal-pill-success" : "portal-pill-warning"}`}>
+          <span className="portal-pill-dot" aria-hidden="true" />
           {submitted ? "Submitted" : "Not Submitted"}
         </span>
       </div>
@@ -100,7 +97,7 @@ export default function UploadPanel({ profile }: UploadPanelProps) {
         </article>
         <article className="portal-stat md:col-span-2">
           <p className="portal-label">Drive Link</p>
-          <p className="portal-value text-base">
+          <p className="portal-value portal-value-compact">
             {currentFileUrl ? (
               <a className="portal-link" href={currentFileUrl} target="_blank" rel="noreferrer">
                 View Submission
@@ -117,11 +114,11 @@ export default function UploadPanel({ profile }: UploadPanelProps) {
           type="file"
           accept=".ppt,.pptx,.pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf"
           onChange={(event) => setSelectedFile(event.target.files?.[0] || null)}
-          className="block w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 file:mr-3 file:rounded-lg file:border-0 file:bg-amber-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-amber-900"
+          className="portal-file-input"
         />
 
-        {error ? <p className="text-sm font-medium text-red-600">{error}</p> : null}
-        {success ? <p className="text-sm font-medium text-emerald-600">{success}</p> : null}
+        {error ? <p className="portal-alert portal-alert-error">{error}</p> : null}
+        {success ? <p className="portal-alert portal-alert-success">{success}</p> : null}
 
         <button
           type="submit"

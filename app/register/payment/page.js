@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const PAYMENT_AMOUNT = 500;
+const PAYMENT_AMOUNT = 400;
 const DRAFT_KEY = "epoch-registration-draft";
 const UPI_ID = "meesamhyder2005-1@oksbi";
 const UPI_PAYEE_NAME = "Meesam Hyder";

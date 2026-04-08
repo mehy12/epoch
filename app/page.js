@@ -104,7 +104,7 @@ const rounds = [
   {
     phase: "Phase 01",
     title: "Round 1: Online Screening",
-    price: "₹500",
+    price: "₹400",
     details: [
       "Team base fee",
       "Payment via QR in registration flow",
@@ -115,7 +115,7 @@ const rounds = [
   {
     phase: "Phase 02",
     title: "Round 2: Finale",
-    price: "₹1000",
+    price: "₹1100",
     details: [
       "For shortlisted teams",
       "On-campus at Vemana IT",
@@ -132,7 +132,7 @@ const homeFaqItems = [
   },
   {
     q: "What is the registration fee?",
-    a: "₹500 per team for Round 1 and ₹1000 per team for Round 2 (only if shortlisted).",
+    a: "₹400 per team for Round 1 and ₹1100 per team for Round 2 (only if shortlisted).",
   },
   {
     q: "Is Round 2 offline?",

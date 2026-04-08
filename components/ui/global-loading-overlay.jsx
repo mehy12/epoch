@@ -16,6 +16,10 @@ const MIN_VISIBLE_MS = 1400;
 const ACTION_AUTO_HIDE_MS = 1800;
 const NAV_FAILSAFE_MS = 12000;
 
+function isOverlayDisabledPath(pathname) {
+  return pathname === "/" || pathname.startsWith("/faq");
+}
+
 export default function GlobalLoadingOverlay() {
   const pathname = usePathname();
 
@@ -26,6 +30,7 @@ export default function GlobalLoadingOverlay() {
   const navigatingRef = useRef(false);
   const visibleRef = useRef(false);
   const shownAtRef = useRef(0);
+  const overlayDisabledRef = useRef(isOverlayDisabledPath(pathname));
 
   const showTimerRef = useRef(null);
   const hideTimerRef = useRef(null);
@@ -65,6 +70,10 @@ export default function GlobalLoadingOverlay() {
   };
 
   const beginLoading = (reason) => {
+    if (overlayDisabledRef.current) {
+      return;
+    }
+
     if (reason === "navigation") {
       navigatingRef.current = true;
       clearTimer(navFailsafeRef);
@@ -90,6 +99,10 @@ export default function GlobalLoadingOverlay() {
   useEffect(() => {
     visibleRef.current = visible;
   }, [visible]);
+
+  useEffect(() => {
+    overlayDisabledRef.current = isOverlayDisabledPath(pathname);
+  }, [pathname]);
 
   useEffect(() => {
     const handleClickCapture = (event) => {
@@ -145,7 +158,10 @@ export default function GlobalLoadingOverlay() {
 
     window.fetch = async (...args) => {
       pendingFetchRef.current += 1;
-      beginLoading("fetch");
+
+      if (!overlayDisabledRef.current) {
+        beginLoading("fetch");
+      }
 
       try {
         return await originalFetch(...args);
@@ -161,6 +177,17 @@ export default function GlobalLoadingOverlay() {
   }, []);
 
   useEffect(() => {
+    if (isOverlayDisabledPath(pathname)) {
+      navigatingRef.current = false;
+      shownAtRef.current = 0;
+      clearTimer(showTimerRef);
+      clearTimer(hideTimerRef);
+      clearTimer(idleTimerRef);
+      clearTimer(navFailsafeRef);
+      setVisible(false);
+      return;
+    }
+
     navigatingRef.current = false;
     clearTimer(navFailsafeRef);
     completeIfIdle();

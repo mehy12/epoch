@@ -1,5 +1,6 @@
 import { Anton, Bebas_Neue, Space_Mono } from "next/font/google";
 import GlobalLoadingOverlay from "@/components/ui/global-loading-overlay";
+import ThemeToggle from "@/components/ui/theme-toggle";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -28,9 +29,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body className={`${bebasNeue.variable} ${spaceMono.variable} ${anton.variable}`}>
         {children}
+        <ThemeToggle />
         <GlobalLoadingOverlay />
       </body>
     </html>

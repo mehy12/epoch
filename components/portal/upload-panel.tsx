@@ -1,26 +1,11 @@
 "use client";
 
 import { PortalPublicProfile } from "@/lib/portal/types";
+import { formatDateTimeInIST } from "@/lib/portal/utils";
 import { FormEvent, useState } from "react";
 
 interface UploadPanelProps {
   profile: PortalPublicProfile;
-}
-
-function formatDate(value: string): string {
-  if (!value) {
-    return "-";
-  }
-
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return date.toLocaleString("en-IN", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
 }
 
 export default function UploadPanel({ profile }: UploadPanelProps) {
@@ -93,7 +78,7 @@ export default function UploadPanel({ profile }: UploadPanelProps) {
         </article>
         <article className="portal-stat">
           <p className="portal-label">Uploaded At</p>
-          <p className="portal-value">{formatDate(currentUploadedAt)}</p>
+          <p className="portal-value">{formatDateTimeInIST(currentUploadedAt)}</p>
         </article>
         <article className="portal-stat md:col-span-2">
           <p className="portal-label">Drive Link</p>

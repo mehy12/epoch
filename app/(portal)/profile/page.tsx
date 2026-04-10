@@ -1,21 +1,6 @@
 import PortalNav from "@/components/portal/portal-nav";
 import { requirePortalProfile } from "@/lib/portal/server-auth";
-
-function formatDate(value: string): string {
-  if (!value) {
-    return "-";
-  }
-
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return date.toLocaleString("en-IN", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
-}
+import { formatDateTimeInIST } from "@/lib/portal/utils";
 
 export default async function ProfilePage() {
   const profile = await requirePortalProfile();
@@ -29,11 +14,11 @@ export default async function ProfilePage() {
     ["College", profile.college],
     ["Selected Domain", profile.domain],
     ["Idea Title", profile.ideaTitle || "-"],
-    ["Registration Date", formatDate(profile.registrationDate)],
+    ["Registration Date", formatDateTimeInIST(profile.registrationDate)],
     ["Payment Status", profile.paymentStatus || "Pending"],
     ["PPT Submission", profile.pptSubmitted ? "Submitted" : "Not Submitted"],
     ["PPT File Name", profile.pptFileName || "-"],
-    ["PPT Uploaded At", formatDate(profile.pptUploadedAt)],
+    ["PPT Uploaded At", formatDateTimeInIST(profile.pptUploadedAt)],
   ];
 
   return (

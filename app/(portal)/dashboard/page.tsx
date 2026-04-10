@@ -3,22 +3,7 @@ import StatusPill from "@/components/portal/status-pill";
 import UploadPanel from "@/components/portal/upload-panel";
 import { PORTAL_PPT_DEADLINE } from "@/lib/portal/constants";
 import { requirePortalProfile } from "@/lib/portal/server-auth";
-
-function formatDate(value: string): string {
-  if (!value) {
-    return "-";
-  }
-
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return date.toLocaleString("en-IN", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
-}
+import { formatDateTimeInIST } from "@/lib/portal/utils";
 
 function paymentTone(status: string): "success" | "warning" {
   return status.toLowerCase() === "verified" ? "success" : "warning";
@@ -69,7 +54,7 @@ export default async function DashboardPage() {
             </article>
             <article className="portal-stat">
               <p className="portal-label">Registration Date</p>
-              <p className="portal-value">{formatDate(profile.registrationDate)}</p>
+              <p className="portal-value">{formatDateTimeInIST(profile.registrationDate)}</p>
             </article>
           </div>
         </section>

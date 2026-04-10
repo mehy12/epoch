@@ -1,5 +1,7 @@
 import { IdentifierKind } from "@/lib/portal/types";
 
+const IST_TIME_ZONE = "Asia/Kolkata";
+
 export function normalizeEmail(value: string): string {
   return String(value || "").trim().toLowerCase();
 }
@@ -63,6 +65,28 @@ export function toIsoStringSafe(value: string): string {
   }
 
   return date.toISOString();
+}
+
+export function formatDateTimeInIST(value: string): string {
+  if (!value) {
+    return "-";
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: IST_TIME_ZONE,
+    timeZoneName: "short",
+  });
 }
 
 export function sanitizeFileName(name: string): string {

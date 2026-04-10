@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const resultDate = new Date("2026-04-28T00:00:00+05:30").getTime();
+const eventDate = new Date("2026-05-01T11:00:00+05:30").getTime();
 const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/D7uEE3yTIq8DkRp03KOwYp";
 
 function pad(value) {
@@ -11,7 +11,7 @@ function pad(value) {
 }
 
 function getTimeLeft() {
-  const diff = Math.max(resultDate - Date.now(), 0);
+  const diff = Math.max(eventDate - Date.now(), 0);
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -48,7 +48,7 @@ export default function RegisterSuccessPage() {
         <p className="section-label">EPOCH '26</p>
         <h1>Registration Received</h1>
         <p className="register-success-message">
-          EPOCH '26 — Registration Received. Screening results will be announced April 28.
+          EPOCH '26 — Registration received. Slot confirmation follows first-come, first-serve order after payment verification.
         </p>
 
         {teamId ? (
@@ -81,8 +81,8 @@ export default function RegisterSuccessPage() {
 
         <p className="register-success-status">
           {timeLeft.complete
-            ? "Screening results are being announced now."
-            : "Countdown to screening results"}
+            ? "Hackathon is live now."
+            : "Countdown to hackathon kickoff"}
         </p>
 
         <div className="register-success-whatsapp">

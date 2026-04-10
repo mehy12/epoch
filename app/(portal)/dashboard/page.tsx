@@ -1,7 +1,5 @@
 import PortalNav from "@/components/portal/portal-nav";
 import StatusPill from "@/components/portal/status-pill";
-import UploadPanel from "@/components/portal/upload-panel";
-import { PORTAL_PPT_DEADLINE } from "@/lib/portal/constants";
 import { requirePortalProfile } from "@/lib/portal/server-auth";
 import { formatDateTimeInIST } from "@/lib/portal/utils";
 
@@ -68,32 +66,27 @@ export default async function DashboardPage() {
           </article>
 
           <article className="portal-card p-5">
-            <p className="portal-label">PPT Submission Status</p>
+            <p className="portal-label">Registration Model</p>
             <div className="mt-3">
-              <StatusPill
-                tone={profile.pptSubmitted ? "success" : "warning"}
-                label={profile.pptSubmitted ? "Submitted" : "Not Submitted"}
-              />
+              <StatusPill tone="neutral" label="First-Come, First-Serve" />
             </div>
           </article>
 
           <article className="portal-card p-5">
-            <p className="portal-label">Deadline Reminder</p>
-            <p className="portal-deadline mt-3">Round 1 PPT Deadline: {PORTAL_PPT_DEADLINE}</p>
+            <p className="portal-label">Round Format</p>
+            <p className="portal-deadline mt-3">Single Round • Offline Finale</p>
           </article>
         </section>
 
         <section className="portal-callout-block p-5 sm:p-6">
           <h2 className="text-3xl sm:text-4xl">Important Instructions</h2>
           <ul className="portal-list portal-muted mt-3 space-y-2 text-sm">
-            <li>Round 1 requires PPT submission.</li>
-            <li>Only one final PPT submission per team will be considered.</li>
-            <li>PPT is mandatory for screening.</li>
-            <li>Teams without PPT will not be shortlisted.</li>
+            <li>EPOCH '26 follows a single-round format.</li>
+            <li>Slots are confirmed on a first-come, first-serve basis after payment verification.</li>
+            <li>Carry valid college ID and required hardware during the event.</li>
+            <li>Follow all code of conduct and venue guidelines throughout the hackathon.</li>
           </ul>
         </section>
-
-        <UploadPanel profile={profile} />
       </main>
     </div>
   );

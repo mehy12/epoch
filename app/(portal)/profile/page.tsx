@@ -16,9 +16,6 @@ export default async function ProfilePage() {
     ["Idea Title", profile.ideaTitle || "-"],
     ["Registration Date", formatDateTimeInIST(profile.registrationDate)],
     ["Payment Status", profile.paymentStatus || "Pending"],
-    ["PPT Submission", profile.pptSubmitted ? "Submitted" : "Not Submitted"],
-    ["PPT File Name", profile.pptFileName || "-"],
-    ["PPT Uploaded At", formatDateTimeInIST(profile.pptUploadedAt)],
   ];
 
   return (

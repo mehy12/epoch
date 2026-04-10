@@ -11,24 +11,34 @@ const committeeContacts = [
   {
     role: "Co-ordinator",
     name: "[ AKSHYANSHU SEKHAR NAYAK ]",
-    phone: "+91 98765 43210",
+    phone: "+91 98866 67080",
+  },
+  {
+    role: "EVENT ORGANIZER",
+    name: "[ AALIYA VIQUAS ]",
+    phone: "+91 86187 15435",
+  },
+  {
+    role: "EVENT ORGANIZER",
+    name: "[ ZAYNAH WAHEED ]",
+    phone: "+91 78292 65070",
   },
   {
     role: "Registrations",
     name: "[ PRASHANTH TIWARI ]",
-    phone: "+91 98765 43210",
+    phone: "+91 63614 01733",
   },
   {
     role: "Technical Lead",
     name: "[ V PUNITH REDDY ]",
-    phone: "+91 XXXXX XXXXX",
-  },
+    phone: "+91 91086 01384",
+  }
 ];
 
 const socialLinks = [
-  { tag: "IG", label: "Instagram", href: "https://instagram.com" },
-  { tag: "LI", label: "LinkedIn", href: "https://linkedin.com" },
-  { tag: "WA", label: "WhatsApp", href: "https://wa.me/919876543210" },
+  { tag: "IG", label: "Instagram", href: "https://instagram.com/vemanait_ieee" },
+  { tag: "LI", label: "LinkedIn", href: "https://linkedin.com/company/vemana-ieee-student-branch-chapter" },
+  { tag: "WA", label: "WhatsApp", href: "https://chat.whatsapp.com/HszRt88JKjO9BGLNatLIo5?mode=gi_t" },
 ];
 
 const mapUrl =
@@ -99,18 +109,18 @@ export default function ContactPage() {
                 <div className="contact-reach-list">
                   <div className="contact-reach-item">
                     <p className="contact-reach-head">Email</p>
-                    <a href="mailto:epoch26@vit.edu.in" className="contact-reach-main">
-                      epoch26@vit.edu.in
+                    <a href="mailto:epoch26vit@gmail.com" className="contact-reach-main">
+                      epoch26vit@gmail.com
                     </a>
-                    <a href="mailto:ieee@vit.edu.in" className="contact-reach-sub">
-                      ieee@vit.edu.in
+                    <a href="mailto:epoch26vit@gmail.com" className="contact-reach-sub">
+                      EPOCH '26 Official Mailbox
                     </a>
                   </div>
 
                   <div className="contact-reach-item">
                     <p className="contact-reach-head">Phone</p>
-                    <a href="tel:+919876543210" className="contact-reach-main">
-                      +91 XXXXX XXXXX
+                    <a href="tel:+918618715435" className="contact-reach-main">
+                      +91 86187 15435
                     </a>
                     <p className="contact-reach-sub">Mon - Fri, 9AM - 6PM IST</p>
                   </div>

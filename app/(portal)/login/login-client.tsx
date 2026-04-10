@@ -104,14 +104,11 @@ export default function LoginClient() {
           <h2>Inside Your Portal</h2>
           <ul className="portal-list portal-muted mt-5 space-y-2 text-sm">
             <li>View full team registration details.</li>
-            <li>Track payment verification and submission status.</li>
-            <li>Upload or replace your Round 1 PPT submission.</li>
+            <li>Track payment verification and slot confirmation status.</li>
             <li>Keep your Team ID ready for all communications.</li>
           </ul>
 
-          <div className="portal-callout mt-8">
-            Round 1 PPT deadline: <span className="font-semibold">April 25, 2026</span>
-          </div>
+          <div className="portal-callout mt-8">Single round format. No separate PPT upload required.</div>
 
           <Link href="/" className="portal-btn-secondary mt-6 inline-flex w-full justify-center sm:w-auto">
             Back to Home

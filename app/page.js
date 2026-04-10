@@ -102,25 +102,14 @@ const chronology = [
 
 const rounds = [
   {
-    phase: "Phase 01",
-    title: "Round 1: Online Screening",
-    price: "₹400",
+    phase: "Single Round",
+    title: "Single Round: Grand Finale",
+    price: "₹1500",
     details: [
-      "Team base fee",
-      "Payment via QR in registration flow",
-      "Submit PPT and idea",
-      "Screening on April 24-25, 2026",
-    ],
-  },
-  {
-    phase: "Phase 02",
-    title: "Round 2: Finale",
-    price: "₹1100",
-    details: [
-      "For shortlisted teams",
-      "On-campus at Vemana IT",
-      "Only shortlisted teams qualify",
-      "Mentor and jury evaluations",
+      "Flat team registration fee",
+      "First-come, first-serve slot allocation",
+      "24-hour offline hackathon at Vemana IT",
+      "Complete payment to confirm your slot",
     ],
   },
 ];
@@ -132,11 +121,11 @@ const homeFaqItems = [
   },
   {
     q: "What is the registration fee?",
-    a: "₹400 per team for Round 1 and ₹1100 per team for Round 2 (only if shortlisted).",
+    a: "₹1500 per team (single round, non-refundable). Slots are first come, first serve.",
   },
   {
-    q: "Is Round 2 offline?",
-    a: "Yes, Round 2 is a fully offline 24-hour finale at Vemana Institute of Technology.",
+    q: "Is the hackathon offline?",
+    a: "Yes, EPOCH '26 is a fully offline 24-hour hackathon at Vemana Institute of Technology.",
   },
   {
     q: "Do we need to bring our own laptops?",
@@ -155,7 +144,7 @@ function getTimerState() {
     return {
       totalMs: launchTime - now,
       phase: "Starts In",
-      status: "Registrations are open. Finals begin on May 1 at 11:00 AM.",
+        status: "Registrations are open. Slots are first come, first serve. Hackathon begins on May 1 at 11:00 AM.",
     };
   }
 
@@ -191,7 +180,9 @@ function splitTime(totalMs) {
 export default function HomePage() {
   const [timer, setTimer] = useState({ days: "00", hours: "00", minutes: "00", seconds: "00" });
   const [phase, setPhase] = useState("Starts In");
-  const [status, setStatus] = useState("Registrations are open. Finals begin on May 1 at 11:00 AM.");
+  const [status, setStatus] = useState(
+    "Registrations are open. Slots are first come, first serve. Hackathon begins on May 1 at 11:00 AM."
+  );
   const [openFaq, setOpenFaq] = useState("home-0");
 
   useEffect(() => {
@@ -356,7 +347,7 @@ export default function HomePage() {
         <h2>
           Access <span>Protocols</span>
         </h2>
-        <p className="epoch-subcopy">Registrations are team based. Teams selected based on their proposals, will be notified.</p>
+        <p className="epoch-subcopy">Registrations are team based and confirmed strictly on a first-come, first-serve basis after payment.</p>
 
         <div className="epoch-rounds-grid">
           {rounds.map((round) => (
@@ -374,7 +365,7 @@ export default function HomePage() {
         </div>
 
         <div className="epoch-template-link-row">
-          <p className="epoch-subcopy">Round 1 idea submission PPT template</p>
+          <p className="epoch-subcopy">Hackathon presentation template</p>
           <a
             className="epoch-btn epoch-btn-compact"
             href={ROUND1_PPT_TEMPLATE_URL}

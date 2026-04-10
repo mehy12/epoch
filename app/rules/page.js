@@ -11,7 +11,7 @@ const sections = [
     title: "1. Eligibility",
     points: [
       "Open to all undergraduate and postgraduate students across India.",
-      "All team members must hold a valid IEEE membership at the time of registration.",
+      "IEEE membership is optional and not mandatory for participation.",
       "A team must consist of 2 to 4 members.",
       "Members from different colleges may form a team.",
       "Faculty members and professionals are not eligible to participate.",
@@ -21,27 +21,18 @@ const sections = [
     title: "2. Registration",
     points: [
       "Teams must register online before April 25, 2026.",
-      "Registration fee for Round 1 is Rs 400 per team (non-refundable).",
+      "Registration fee is Rs 1500 per team.",
+      "Slots are allotted strictly on a first-come, first-serve basis.",
       "Each participant can be part of only one team.",
       "Incomplete registrations will be rejected without notice.",
       "All details submitted during registration must be accurate. Misrepresentation will lead to disqualification.",
     ],
   },
   {
-    title: "3. Round 1 - Online Screening",
+    title: "3. Single Round - Grand Finale",
     points: [
-      "Teams must submit a PPT presentation and a brief idea description during registration.",
-      "Submissions must be made via the registration form before the deadline.",
-      "Shortlisted teams will be announced on April 28, 2026.",
-      "Shortlisted teams must pay an additional Rs 1100 to confirm their spot in the finale.",
-      "Non-payment by the deadline will result in forfeiture of the spot.",
-      "Screening decisions by the panel are final and non-contestable.",
-    ],
-  },
-  {
-    title: "4. Round 2 - Grand Finale",
-    points: [
-      "The finale will be held on May 1-2, 2026 at Vemana Institute of Technology, Koramangala, Bangalore.",
+      "EPOCH '26 is a single-round 24-hour offline hackathon.",
+      "The event will be held on May 1-2, 2026 at Vemana Institute of Technology, Koramangala, Bangalore.",
       "Hackathon begins at 11:00 AM on May 1 and ends at 11:00 AM on May 2 (24 hours).",
       "All team members must be physically present throughout the event.",
       "Late arrivals beyond 30 minutes from the start time may be disqualified at the organiser's discretion.",
@@ -50,7 +41,7 @@ const sections = [
     ],
   },
   {
-    title: "5. Project & Submission",
+    title: "4. Project & Submission",
     points: [
       "Projects must be built during the hackathon duration only. Pre-built projects are strictly prohibited.",
       "The project must align with one of the three tracks: AI for Social Good, Sustainability Goals, Cybersecurity & Blockchain.",
@@ -61,17 +52,17 @@ const sections = [
     ],
   },
   {
-    title: "7. Code of Conduct",
+    title: "5. Code of Conduct",
     points: [
       "Participants must maintain respectful and professional behaviour at all times.",
       "Harassment, discrimination, or unsportsmanlike conduct of any kind will result in immediate disqualification and removal from the venue.",
       "Participants must not damage venue property. Any damage caused will be the team's responsibility.",
       "Consumption of alcohol, tobacco, or any illegal substances on premises is strictly prohibited.",
-      "Participants must carry their college ID and IEEE membership card at all times during the event.",
+      "Participants must carry their valid college ID at all times during the event.",
     ],
   },
   {
-    title: "8. Intellectual Property",
+    title: "7. Intellectual Property",
     points: [
       "Teams retain full ownership of their projects.",
       "By participating, teams grant EPOCH '26 and Vemana Institute of Technology the right to showcase, photograph, or publish their work for promotional purposes.",
@@ -79,7 +70,7 @@ const sections = [
     ],
   },
   {
-    title: "9. Meals & Facilities",
+    title: "8. Meals & Facilities",
     points: [
       "Lunch - 2:00 PM (May 1)",
       "Snacks - 5:00 PM (May 1)",
@@ -91,7 +82,7 @@ const sections = [
     ],
   },
   {
-    title: "10. Prizes",
+    title: "9. Prizes",
     points: [
       "Total Prize Pool: Rs 3,00,000.",
       "Rs 1,00,000 per track, split as Rs 50,000 (1st), Rs 30,000 (2nd), and Rs 20,000 (3rd).",
@@ -101,17 +92,16 @@ const sections = [
     ],
   },
   {
-    title: "11. Disqualification",
+    title: "10. Disqualification",
     points: [
       "Submitting pre-built or plagiarised work",
       "Violation of code of conduct",
-      "Invalid or fake IEEE membership",
       "Misrepresentation of team details",
       "Tampering with other teams' work or systems",
     ],
   },
   {
-    title: "12. Organisers' Rights",
+    title: "11. Organisers' Rights",
     points: [
       "The organising committee reserves the right to modify, suspend, or cancel the event in case of unforeseen circumstances.",
       "The organisers' decision on any matter not covered in these rules will be final.",

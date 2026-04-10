@@ -27,7 +27,7 @@ const faqSections = [
     items: [
       {
         q: "What is the registration fee?",
-        a: "₹400 per team for Round 1 and ₹1100 per team for Round 2 (only if shortlisted).",
+        a: "₹1500 per team for EPOCH '26 (single round).",
       },
       {
         q: "Is the fee refundable?",
@@ -35,43 +35,29 @@ const faqSections = [
       },
       {
         q: "Does registering early help?",
-        a: "Yes. Earlier registrations may be given priority during screening, and exceptional early submissions may be considered for direct Round 2 shortlisting based on quality and evaluation criteria.",
+        a: "Yes. Registrations are confirmed strictly on a first-come, first-serve basis after successful payment.",
+      },
+      {
+        q: "Is IEEE membership mandatory?",
+        a: "No. IEEE membership is optional and not required to register or participate.",
       },
     ],
   },
   {
-    key: "round1",
-    title: "Round 1 (Screening)",
+    key: "format",
+    title: "Event Format",
     items: [
       {
-        q: "What is Round 1?",
-        a: "An online screening round where teams submit their idea.",
+        q: "How many rounds are there?",
+        a: "Only one round. EPOCH '26 is a single-round 24-hour offline hackathon.",
       },
       {
-        q: "What do we need to submit?",
-        a: "A 5-6 slide PPT covering problem, solution, technical approach, feasibility, and impact.",
+        q: "Is there any shortlisting round before the event?",
+        a: "No. There is no separate screening or shortlisting round.",
       },
       {
-        q: "How will teams be shortlisted?",
-        a: "Based on problem clarity, solution quality, technical feasibility, innovation, and overall submission quality.",
-      },
-    ],
-  },
-  {
-    key: "round2",
-    title: "Round 2 (Final Hackathon)",
-    items: [
-      {
-        q: "What is Round 2?",
-        a: "A 24-hour offline hackathon at Vemana Institute of Technology.",
-      },
-      {
-        q: "Is Round 2 offline?",
-        a: "Yes, it is fully offline and requires physical presence.",
-      },
-      {
-        q: "What happens in Round 2?",
-        a: "Teams build a working prototype and present it to judges.",
+        q: "How are slots confirmed?",
+        a: "Slots are locked on a first-come, first-serve basis once registration payment is completed.",
       },
     ],
   },
@@ -84,8 +70,8 @@ const faqSections = [
         a: "No. Projects must be built during the hackathon. Open-source libraries and APIs are allowed.",
       },
       {
-        q: "Can we change our idea after Round 1?",
-        a: "Minor changes are allowed, but the core idea should remain the same.",
+        q: "Can we change our idea after registration?",
+        a: "Minor refinements are allowed, but your core problem statement and track should remain aligned.",
       },
     ],
   },

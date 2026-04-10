@@ -19,7 +19,7 @@ Use this with the Next.js `/api/register` endpoint to store every registration i
 - Leader Department
 - Leader Year
 - Leader USN
-- Leader IEEE ID
+- Leader IEEE ID (Optional)
 - Member Details JSON
 - Idea Description
 - PPT Link
@@ -120,7 +120,7 @@ function ensureHeaders(sheet) {
     'Leader Department',
     'Leader Year',
     'Leader USN',
-    'Leader IEEE ID',
+    'Leader IEEE ID (Optional)',
     'Member Details JSON',
     'Idea Description',
     'PPT Link',

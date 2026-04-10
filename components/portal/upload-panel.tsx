@@ -62,7 +62,7 @@ export default function UploadPanel({ profile }: UploadPanelProps) {
     <section className="portal-card p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:items-center">
         <div>
-          <h3 className="portal-card-heading">Upload Round 1 PPT</h3>
+          <h3 className="portal-card-heading">Upload Final PPT</h3>
           <p className="portal-muted text-sm">Accepted: .ppt, .pptx, .pdf (max 20MB)</p>
         </div>
         <span className={`portal-pill ${submitted ? "portal-pill-success" : "portal-pill-warning"}`}>

@@ -15,7 +15,6 @@ export default function PortalNav({ teamId, teamName }: PortalNavProps) {
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/profile", label: "Profile" },
-    { href: "/submit", label: "Submit PPT" },
   ];
 
   return (

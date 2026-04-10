@@ -1039,7 +1039,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="register-fee-note">
-                Registration Fee: ₹400 per team. Proceed to payment after this step.
+                Registration Fee: ₹1500 per team. Slots are first come, first serve after payment.
               </div>
 
               {submitError ? (

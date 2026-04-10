@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import CollegeCombobox from "@/components/ui/college-combobox";
 import { collegeOptions } from "@/lib/college-options";
-import { ROUND1_PPT_TEMPLATE_URL } from "@/lib/event-links";
 
 const smoothEase = [0.22, 1, 0.36, 1];
 
@@ -21,7 +20,6 @@ const sectionSteps = [
   { id: "team-info", label: "Team Info" },
   { id: "team-leader", label: "Team Leader" },
   { id: "team-members", label: "Team Members" },
-  { id: "idea-submission", label: "Idea Submission" },
   { id: "declaration", label: "Declaration" },
 ];
 
@@ -59,10 +57,6 @@ function initialFormData() {
       3: emptyMember(),
       4: emptyMember(),
     },
-    idea: {
-      description: "",
-      pptLink: "",
-    },
     declaration: {
       infoAccurate: false,
       agreeTerms: false,
@@ -76,15 +70,6 @@ function isEmailValid(value) {
 
 function isPhoneValid(value) {
   return /^\+?[0-9]{10,15}$/.test(value.trim());
-}
-
-function isGoogleDriveLink(value) {
-  try {
-    const parsed = new URL(value);
-    return ["drive.google.com", "docs.google.com"].includes(parsed.hostname);
-  } catch {
-    return false;
-  }
 }
 
 async function checkDuplicateLeaderRegistration({ email, mobile }) {
@@ -177,10 +162,6 @@ export default function RegisterPage() {
       return "team-members";
     }
 
-    if (path.startsWith("idea.")) {
-      return "idea-submission";
-    }
-
     if (path.startsWith("declaration.")) {
       return "declaration";
     }
@@ -205,8 +186,6 @@ export default function RegisterPage() {
       "leader.yearOfStudy": "leaderYearOfStudy",
       "leader.usn": "leaderUsn",
       "leader.ieeeId": "leaderIeeeId",
-      "idea.description": "ideaDescription",
-      "idea.pptLink": "pptLink",
       "declaration.infoAccurate": "declarationInfoAccurate",
       "declaration.agreeTerms": "declarationAgreeTerms",
     };
@@ -305,18 +284,6 @@ export default function RegisterPage() {
       if (!yearOptions.includes(member.yearOfStudy)) {
         next[`${base}.yearOfStudy`] = `Member ${memberNumber} year of study is required.`;
       }
-    }
-
-    if (!data.idea.description.trim()) {
-      next["idea.description"] = "Brief idea description is required.";
-    }
-
-    if (data.idea.description.trim().length > 300) {
-      next["idea.description"] = "Brief idea description must be 300 characters or less.";
-    }
-
-    if (!isGoogleDriveLink(data.idea.pptLink.trim())) {
-      next["idea.pptLink"] = "Add a valid Google Drive or Google Docs presentation link.";
     }
 
     if (!data.declaration.infoAccurate) {
@@ -490,8 +457,6 @@ export default function RegisterPage() {
   };
 
   const validationMessages = submitAttempted ? Object.values(errors) : [];
-  const descriptionLength = formData.idea.description.length;
-
   return (
     <>
       <div className="noise-layer" aria-hidden="true" />
@@ -1027,91 +992,6 @@ export default function RegisterPage() {
             </motion.section>
 
             <motion.section
-              id="idea-submission"
-              className="register-section"
-              ref={(node) => {
-                sectionRefs.current["idea-submission"] = node;
-              }}
-              onFocusCapture={() => setActiveSection("idea-submission")}
-              {...sectionMotion}
-            >
-              <h2 className="register-section-title">Section 4 - Idea Submission</h2>
-              <div className="register-grid register-grid-one">
-                <div className="register-field">
-                  <label className="register-label" htmlFor="ideaDescription">
-                    Brief Idea Description <span className="register-required">*</span>
-                  </label>
-                  <textarea
-                    id="ideaDescription"
-                    className={`register-control register-textarea${
-                      getError("idea.description") ? " is-invalid" : ""
-                    }`}
-                    value={formData.idea.description}
-                    onChange={(event) => {
-                      const next = event.target.value.slice(0, 300);
-                      setFormData((prev) => ({
-                        ...prev,
-                        idea: {
-                          ...prev.idea,
-                          description: next,
-                        },
-                      }));
-                    }}
-                    aria-invalid={Boolean(getError("idea.description"))}
-                    aria-describedby={getError("idea.description") ? "ideaDescription-error" : undefined}
-                  />
-                  <p className="register-counter" aria-live="polite">
-                    {descriptionLength} / 300
-                  </p>
-                  {getError("idea.description") ? (
-                    <p id="ideaDescription-error" className="register-error">
-                      {getError("idea.description")}
-                    </p>
-                  ) : null}
-                </div>
-
-                <div className="register-field">
-                  <div className="register-label-row">
-                    <label className="register-label" htmlFor="pptLink">
-                      PPT / Presentation Link (Google Drive) <span className="register-required">*</span>
-                    </label>
-                    <a
-                      className="register-template-link"
-                      href={ROUND1_PPT_TEMPLATE_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Download Template
-                    </a>
-                  </div>
-                  <input
-                    id="pptLink"
-                    className={`register-control${getError("idea.pptLink") ? " is-invalid" : ""}`}
-                    type="url"
-                    placeholder="https://drive.google.com/..."
-                    value={formData.idea.pptLink}
-                    onChange={(event) => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        idea: {
-                          ...prev.idea,
-                          pptLink: event.target.value,
-                        },
-                      }));
-                    }}
-                    aria-invalid={Boolean(getError("idea.pptLink"))}
-                    aria-describedby={getError("idea.pptLink") ? "pptLink-error" : undefined}
-                  />
-                  {getError("idea.pptLink") ? (
-                    <p id="pptLink-error" className="register-error">
-                      {getError("idea.pptLink")}
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-            </motion.section>
-
-            <motion.section
               id="declaration"
               className="register-section"
               ref={(node) => {
@@ -1120,7 +1000,7 @@ export default function RegisterPage() {
               onFocusCapture={() => setActiveSection("declaration")}
               {...sectionMotion}
             >
-              <h2 className="register-section-title">Section 5 - Declaration</h2>
+              <h2 className="register-section-title">Section 4 - Declaration</h2>
 
               <div className="register-checklist" role="group" aria-label="Registration declarations">
                 <label

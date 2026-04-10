@@ -78,9 +78,9 @@ export default function PortalAccessPage() {
   };
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-6xl items-start px-4 py-8 sm:px-6 sm:py-10 lg:items-center lg:py-14">
-      <section className="portal-panel grid w-full gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <article className="portal-card p-5 sm:p-8 lg:p-10">
+    <main className="portal-main portal-main-auth portal-main-wide">
+      <section className="portal-panel portal-auth-grid">
+        <article className="portal-card portal-card-roomy">
           <p className="portal-kicker">EPOCH '26 Participant Portal</p>
           <h1 className="mt-3">First-Time Access Setup</h1>
           <p className="portal-muted mt-3 max-w-xl text-sm sm:text-base">
@@ -169,7 +169,7 @@ export default function PortalAccessPage() {
           {error ? <p className="portal-alert portal-alert-error mt-4">{error}</p> : null}
         </article>
 
-        <article className="portal-card p-5 sm:p-8 lg:self-start lg:p-10">
+        <article className="portal-card portal-card-roomy">
           <h2>Access Rules</h2>
           <ul className="portal-list portal-muted mt-4 space-y-2 text-sm">
             <li>Only the team leader can create portal access.</li>

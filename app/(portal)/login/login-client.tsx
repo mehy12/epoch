@@ -43,9 +43,9 @@ export default function LoginClient() {
   };
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-6xl items-start px-4 py-8 sm:px-6 sm:py-10 lg:items-center lg:py-14">
-      <section className="portal-panel mx-auto grid w-full max-w-5xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <article className="portal-card p-5 sm:p-8 lg:p-10">
+    <main className="portal-main portal-main-auth portal-main-wide">
+      <section className="portal-panel portal-auth-grid">
+        <article className="portal-card portal-card-roomy">
           <p className="portal-kicker">EPOCH '26 Participant Portal</p>
           <h1 className="mt-3">Participant Login</h1>
           <p className="portal-muted mt-3 max-w-lg text-sm">
@@ -100,7 +100,7 @@ export default function LoginClient() {
           </p>
         </article>
 
-        <article className="portal-card p-5 sm:p-8 lg:self-start lg:p-10">
+        <article className="portal-card portal-card-roomy">
           <h2>Inside Your Portal</h2>
           <ul className="portal-list portal-muted mt-5 space-y-2 text-sm">
             <li>View full team registration details.</li>

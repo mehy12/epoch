@@ -21,16 +21,16 @@ export default async function ProfilePage() {
   return (
     <div>
       <PortalNav teamId={profile.teamId} teamName={profile.teamName} />
-      <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
-        <section className="portal-card p-5 sm:p-6">
+      <main className="portal-main portal-main-narrow">
+        <section className="portal-card">
           <p className="portal-kicker">Profile</p>
           <h2 className="mt-2">Registered Team Details</h2>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 sm:gap-4">
+          <div className="portal-two-grid" style={{ marginTop: "0.9rem" }}>
             {details.map(([label, value]) => (
               <article key={label} className="portal-stat">
                 <p className="portal-label">{label}</p>
-                <p className="portal-value text-base">{value}</p>
+                <p className="portal-value">{value}</p>
               </article>
             ))}
           </div>

@@ -57,6 +57,73 @@
   animation: portalFade 360ms ease-out both;
 }
 
+.portal-main {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+  padding: clamp(1rem, 2.4vw, 1.6rem) 0 clamp(1.8rem, 3.6vw, 2.8rem);
+}
+
+.portal-main-wide {
+  width: min(1180px, 92vw);
+}
+
+.portal-main-narrow {
+  width: min(980px, 92vw);
+}
+
+.portal-main-auth {
+  min-height: calc(100vh - 82px);
+  display: flex;
+  align-items: flex-start;
+}
+
+.portal-main-stack > * + * {
+  margin-top: clamp(0.9rem, 2vw, 1.35rem);
+}
+
+.portal-auth-grid {
+  width: 100%;
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.portal-main-auth .portal-panel {
+  width: 100%;
+}
+
+.portal-triple-grid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.portal-two-grid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.portal-card-roomy {
+  padding: clamp(1rem, 2.7vw, 1.7rem);
+}
+
+.portal-card > .portal-kicker + h1,
+.portal-card > .portal-kicker + h2 {
+  margin-top: 0.45rem;
+}
+
+.portal-card > h2 + .portal-section-grid,
+.portal-card > h2 + .portal-two-grid,
+.portal-card > h2 + .portal-list {
+  margin-top: 0.9rem;
+}
+
+.portal-card > .portal-label + div,
+.portal-card > .portal-label + .portal-deadline {
+  margin-top: 0.48rem;
+}
+
 .portal-kicker {
   font-size: 0.72rem;
   font-weight: 700;
@@ -70,6 +137,7 @@
   border-radius: 0.25rem;
   background: linear-gradient(180deg, #ffffff 0%, #fff8ec 100%);
   box-shadow: 0 10px 24px rgba(180, 83, 9, 0.09);
+  padding: clamp(0.9rem, 2.2vw, 1.3rem);
 }
 
 .portal-muted {
@@ -397,6 +465,13 @@
   padding-left: 0;
 }
 
+.portal-list-compact {
+  margin-top: 0.6rem;
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+}
+
 .portal-list li::marker {
   color: #64748b;
 }
@@ -419,6 +494,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .portal-triple-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .portal-two-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .portal-nav-inner {
     flex-direction: row;
     align-items: center;
@@ -435,6 +518,16 @@
   .portal-nav-links {
     width: auto;
     overflow: visible;
+  }
+}
+
+@media (min-width: 1024px) {
+  .portal-main-auth {
+    align-items: center;
+  }
+
+  .portal-auth-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   }
 }
 

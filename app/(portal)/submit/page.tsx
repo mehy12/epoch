@@ -7,8 +7,8 @@ export default async function SubmitPage() {
   return (
     <div>
       <PortalNav teamId={profile.teamId} teamName={profile.teamName} />
-      <main className="mx-auto w-full max-w-5xl space-y-6 px-4 py-8 sm:px-6">
-        <section className="portal-card p-5 sm:p-6">
+      <main className="portal-main portal-main-narrow portal-main-stack">
+        <section className="portal-card">
           <p className="portal-kicker">Submission Update</p>
           <h2 className="mt-2">No Separate PPT Submission Required</h2>
           <p className="portal-muted mt-2 text-sm">

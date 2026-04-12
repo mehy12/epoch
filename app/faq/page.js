@@ -117,11 +117,11 @@ const faqSections = [
     items: [
       {
         q: "How will we receive updates?",
-        a: "Updates will be shared via email (and WhatsApp if applicable).",
+        a: "Updates will be shared via email & WhatsApp).",
       },
       {
         q: "Who can we contact for queries?",
-        a: "Email: epoch26@vemanait.ac.in | Phone/WhatsApp: +91 98765 43210.",
+        a: "Email: epoch26@vemanait.ac.in | Phone/WhatsApp: +91 63620 29195.",
       },
     ],
   },

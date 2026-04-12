@@ -23,7 +23,7 @@ const tracks = [
   {
     code: "TRACK 02",
     ghost: "SG",
-    title: "Sustainability Goals",
+    title: " UN Sustainable Development Goals",
     description: "Design resilient products that push measurable progress across environmental outcomes.",
   },
   {

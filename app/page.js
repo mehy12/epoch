@@ -233,6 +233,9 @@ export default function HomePage() {
         <h1>
           EPOCH <span>'26</span>
         </h1>
+        <p className="epoch-subcopy max-w-2xl">
+          EPOCH '26 is a 24-hour hackathon in Bangalore for student innovators building real-world solutions.
+        </p>
 
         <div className="epoch-countdown-wrap" role="timer" aria-live="polite">
           <p className="epoch-phase">{phase}</p>

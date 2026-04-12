@@ -1,5 +1,6 @@
 import { Anton, Bebas_Neue, Space_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import GlobalLoadingOverlay from "@/components/ui/global-loading-overlay";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import "./globals.css";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
         <ThemeToggle />
         <GlobalLoadingOverlay />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );

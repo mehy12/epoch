@@ -44,8 +44,14 @@ const sections = [
     title: "4. Project & Submission",
     points: [
       "Projects must be built during the hackathon duration only. Pre-built projects are strictly prohibited.",
+      "Each domain will have 3 official problem statements, revealed on Day 1.",
+      "Teams must build solutions only for the announced problem statements. Open innovation is not allowed.",
       "The project must align with one of the three tracks: AI for Social Good, Sustainability Goals, Cybersecurity & Blockchain.",
       "Use of open-source libraries, APIs, and publicly available datasets is permitted and encouraged.",
+      "Software-only, hardware-only, and hybrid solutions are all allowed.",
+      "Teams may use frameworks, libraries, APIs, and tools, but core logic, implementation, and integration must be developed during the hackathon.",
+      "Teams may bring Arduino boards, sensors, modules, and other basic components, but no pre-built or semi-built hardware models are allowed.",
+      "Basic materials and 3D printed parts are allowed, but core functionality must be built during the event.",
       "Teams must not plagiarise or copy existing projects. Any such attempt will lead to immediate disqualification.",
       "Final submission must include a working prototype or demo, source code, and a short presentation.",
       "Submissions must be made on the platform specified by organisers before the deadline.",
@@ -94,10 +100,13 @@ const sections = [
   {
     title: "10. Disqualification",
     points: [
-      "Submitting pre-built or plagiarised work",
+      "Submitting pre-built or reused projects",
+      "Submitting plagiarised work or copied implementations",
+      "Solutions not aligned with the official Day 1 problem statements",
       "Violation of code of conduct",
       "Misrepresentation of team details",
       "Tampering with other teams' work or systems",
+      "Using unfair advantage, hidden prework, or unauthorized external help",
     ],
   },
   {

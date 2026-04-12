@@ -59,6 +59,14 @@ const faqSections = [
         q: "How are slots confirmed?",
         a: "Slots are locked on a first-come, first-serve basis once registration payment is completed.",
       },
+      {
+        q: "Are problem statements open innovation?",
+        a: "No. Each domain gets 3 official problem statements on Day 1, and teams must choose from those only.",
+      },
+      {
+        q: "When are problem statements revealed?",
+        a: "Problem statements are revealed at the start of Day 1 of the hackathon.",
+      },
     ],
   },
   {
@@ -72,6 +80,22 @@ const faqSections = [
       {
         q: "Can we change our idea after registration?",
         a: "Minor refinements are allowed, but your core problem statement and track should remain aligned.",
+      },
+      {
+        q: "Can we use frameworks, libraries, and APIs?",
+        a: "Yes. They are allowed, but core logic, implementation, and integration must be built during the hackathon.",
+      },
+      {
+        q: "Are hardware projects allowed?",
+        a: "Yes. Teams can build hardware-only or hybrid solutions using Arduino, sensors, modules, and basic components.",
+      },
+      {
+        q: "Can we bring pre-built hardware models?",
+        a: "No. Pre-built or semi-built models are not allowed. Integration and build must happen during the event.",
+      },
+      {
+        q: "Are 3D-printed parts allowed?",
+        a: "Yes. Basic materials and 3D-printed parts are allowed if the core functionality is built during the hackathon.",
       },
     ],
   },

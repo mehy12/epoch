@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ROUND1_PPT_TEMPLATE_URL } from "@/lib/event-links";
 
 const launchTime = new Date("2026-05-01T11:00:00+05:30").getTime();
 const endTime = new Date("2026-05-02T11:00:00+05:30").getTime();
@@ -280,14 +279,14 @@ export default function HomePage() {
         <h2>
           Choose Your <span>Lane.</span>
         </h2>
-        <p className="epoch-subcopy">Problem statements for each track will be released soon.</p>
+        <p className="epoch-subcopy">Problem statements for each track will be released on the day of the event.</p>
         <div className="epoch-track-grid">
           {tracks.map((track) => (
             <article className="epoch-track-card" key={track.title} data-ghost={track.ghost}>
               <p className="epoch-card-code">{track.code}</p>
               <h3>{track.title}</h3>
               <p>{track.description}</p>
-              <span className="epoch-pill">Problem Statement Soon</span>
+              <span className="epoch-pill">Problem Statement will be revealed on Day 1 </span>
             </article>
           ))}
         </div>
@@ -365,18 +364,6 @@ export default function HomePage() {
               </ul>
             </article>
           ))}
-        </div>
-
-        <div className="epoch-template-link-row">
-          <p className="epoch-subcopy">Hackathon presentation template</p>
-          <a
-            className="epoch-btn epoch-btn-compact"
-            href={ROUND1_PPT_TEMPLATE_URL}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Download PPT Template
-          </a>
         </div>
 
         <a className="epoch-btn" href="/register">

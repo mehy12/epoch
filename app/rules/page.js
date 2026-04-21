@@ -14,7 +14,6 @@ const sections = [
       "IEEE membership is optional and not mandatory for participation.",
       "A team must consist of 2 to 4 members.",
       "Members from different colleges may form a team.",
-      "Faculty members and professionals are not eligible to participate.",
     ],
   },
   {

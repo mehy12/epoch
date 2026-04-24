@@ -9,6 +9,7 @@ import { collegeOptions } from "@/lib/college-options";
 const smoothEase = [0.22, 1, 0.36, 1];
 
 const trackOptions = [
+  "AI for Social Good",
   "Sustainability Goals",
   "Cybersecurity & Blockchain",
 ];

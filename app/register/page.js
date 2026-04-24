@@ -9,7 +9,6 @@ import { collegeOptions } from "@/lib/college-options";
 const smoothEase = [0.22, 1, 0.36, 1];
 
 const trackOptions = [
-  "AI for Social Good",
   "Sustainability Goals",
   "Cybersecurity & Blockchain",
 ];
@@ -308,11 +307,11 @@ export default function RegisterPage() {
   const sectionMotion = reduceMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 22 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, amount: 0.3 },
-        transition: { duration: 0.5, ease: smoothEase },
-      };
+      initial: { opacity: 0, y: 22 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, amount: 0.3 },
+      transition: { duration: 0.5, ease: smoothEase },
+    };
 
   const updateTeamInfo = (field, value) => {
     setFormData((prev) => ({
@@ -485,9 +484,8 @@ export default function RegisterPage() {
                 <button
                   key={step.id}
                   type="button"
-                  className={`register-progress-step${isActive ? " is-active" : ""}${
-                    isCompleted ? " is-complete" : ""
-                  }`}
+                  className={`register-progress-step${isActive ? " is-active" : ""}${isCompleted ? " is-complete" : ""
+                    }`}
                   onClick={() => {
                     const section = sectionRefs.current[step.id];
                     if (section) {
@@ -824,9 +822,8 @@ export default function RegisterPage() {
                             </label>
                             <input
                               id={`member${memberNumber}FullName`}
-                              className={`register-control${
-                                getError(`members.${memberNumber}.fullName`) ? " is-invalid" : ""
-                              }`}
+                              className={`register-control${getError(`members.${memberNumber}.fullName`) ? " is-invalid" : ""
+                                }`}
                               type="text"
                               value={member.fullName}
                               onChange={(event) =>
@@ -852,9 +849,8 @@ export default function RegisterPage() {
                             </label>
                             <input
                               id={`member${memberNumber}Email`}
-                              className={`register-control${
-                                getError(`members.${memberNumber}.email`) ? " is-invalid" : ""
-                              }`}
+                              className={`register-control${getError(`members.${memberNumber}.email`) ? " is-invalid" : ""
+                                }`}
                               type="email"
                               value={member.email}
                               onChange={(event) => updateMember(memberNumber, "email", event.target.value)}
@@ -878,9 +874,8 @@ export default function RegisterPage() {
                             </label>
                             <input
                               id={`member${memberNumber}Usn`}
-                              className={`register-control${
-                                getError(`members.${memberNumber}.usn`) ? " is-invalid" : ""
-                              }`}
+                              className={`register-control${getError(`members.${memberNumber}.usn`) ? " is-invalid" : ""
+                                }`}
                               type="text"
                               value={member.usn}
                               onChange={(event) => updateMember(memberNumber, "usn", event.target.value)}
@@ -902,9 +897,8 @@ export default function RegisterPage() {
                             </label>
                             <input
                               id={`member${memberNumber}IeeeId`}
-                              className={`register-control${
-                                getError(`members.${memberNumber}.ieeeId`) ? " is-invalid" : ""
-                              }`}
+                              className={`register-control${getError(`members.${memberNumber}.ieeeId`) ? " is-invalid" : ""
+                                }`}
                               type="text"
                               value={member.ieeeId}
                               onChange={(event) => updateMember(memberNumber, "ieeeId", event.target.value)}
@@ -928,9 +922,8 @@ export default function RegisterPage() {
                             </label>
                             <input
                               id={`member${memberNumber}Department`}
-                              className={`register-control${
-                                getError(`members.${memberNumber}.department`) ? " is-invalid" : ""
-                              }`}
+                              className={`register-control${getError(`members.${memberNumber}.department`) ? " is-invalid" : ""
+                                }`}
                               type="text"
                               value={member.department}
                               onChange={(event) =>
@@ -956,9 +949,8 @@ export default function RegisterPage() {
                             </label>
                             <select
                               id={`member${memberNumber}YearOfStudy`}
-                              className={`register-control${
-                                getError(`members.${memberNumber}.yearOfStudy`) ? " is-invalid" : ""
-                              }`}
+                              className={`register-control${getError(`members.${memberNumber}.yearOfStudy`) ? " is-invalid" : ""
+                                }`}
                               value={member.yearOfStudy}
                               onChange={(event) =>
                                 updateMember(memberNumber, "yearOfStudy", event.target.value)
@@ -1004,9 +996,8 @@ export default function RegisterPage() {
 
               <div className="register-checklist" role="group" aria-label="Registration declarations">
                 <label
-                  className={`register-checkitem${
-                    getError("declaration.infoAccurate") ? " is-invalid" : ""
-                  }`}
+                  className={`register-checkitem${getError("declaration.infoAccurate") ? " is-invalid" : ""
+                    }`}
                 >
                   <input
                     id="declarationInfoAccurate"
@@ -1021,9 +1012,8 @@ export default function RegisterPage() {
                 ) : null}
 
                 <label
-                  className={`register-checkitem${
-                    getError("declaration.agreeTerms") ? " is-invalid" : ""
-                  }`}
+                  className={`register-checkitem${getError("declaration.agreeTerms") ? " is-invalid" : ""
+                    }`}
                 >
                   <input
                     id="declarationAgreeTerms"

@@ -227,6 +227,16 @@ export default function HomePage() {
         </div>
       </header>
 
+      {/* Title Sponsor Section - directly below nav, above hero */}
+      <section className="epoch-title-sponsor">
+        <span className="epoch-title-sponsor-label">Title Sponsor</span>
+        <img
+          src="/title-sponsor.png"
+          alt="Title Sponsor"
+          className="epoch-title-sponsor-logo"
+        />
+      </section>
+
       <section className="epoch-hero">
         <p className="epoch-kicker">Time Starts Here</p>
         <h1>
@@ -423,6 +433,7 @@ export default function HomePage() {
           <a href="#top">Home</a>
           <a href="#tracks">Disciplines</a>
           <a href="#spoils">Spoils</a>
+            <a href="/sponsors">Sponsors</a>
           <a href="/faq">FAQ</a>
           <a href="/rules">Rules</a>
           <a href="/contact">Contact</a>

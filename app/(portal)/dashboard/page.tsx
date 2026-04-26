@@ -1,6 +1,9 @@
 import PortalNav from "@/components/portal/portal-nav";
 import StatusPill from "@/components/portal/status-pill";
+import TrackChangeSection from "@/components/portal/track-change-section";
+import { AVAILABLE_TRACKS } from "@/lib/portal/constants";
 import { requirePortalProfile } from "@/lib/portal/server-auth";
+import { getTeamCountsByDomain } from "@/lib/portal/sheets";
 import { formatDateTimeInIST } from "@/lib/portal/utils";
 
 function paymentTone(status: string): "success" | "warning" {
@@ -9,6 +12,9 @@ function paymentTone(status: string): "success" | "warning" {
 
 export default async function DashboardPage() {
   const profile = await requirePortalProfile();
+  const domainCounts = await getTeamCountsByDomain();
+
+  const totalTeams = Object.values(domainCounts).reduce((s, n) => s + n, 0);
 
   return (
     <div>
@@ -57,6 +63,57 @@ export default async function DashboardPage() {
           </div>
         </section>
 
+        {/* Domain Distribution */}
+        <section className="portal-card">
+          <p className="portal-kicker">Participation Stats</p>
+          <h2 className="mt-3">Teams per Domain</h2>
+          <p className="portal-muted mt-2" style={{ fontSize: "0.82rem" }}>
+            {totalTeams} team{totalTeams !== 1 ? "s" : ""} registered across all domains.
+            Consider switching to a less competitive track for better odds!
+          </p>
+          <div className="domain-dist-grid mt-5">
+            {AVAILABLE_TRACKS.map((track) => {
+              const count = domainCounts[track] || 0;
+              const pct = totalTeams > 0 ? Math.round((count / totalTeams) * 100) : 0;
+              const isCurrentTrack = track === profile.domain;
+
+              return (
+                <article
+                  key={track}
+                  className={`domain-dist-card${isCurrentTrack ? " domain-dist-current" : ""}`}
+                >
+                  <div className="domain-dist-header">
+                    <p className="portal-label">{track}</p>
+                    {isCurrentTrack && (
+                      <span className="domain-dist-you-badge">Your Track</span>
+                    )}
+                  </div>
+                  <div className="domain-dist-stats">
+                    <span className="domain-dist-count">{count}</span>
+                    <span className="domain-dist-label">
+                      team{count !== 1 ? "s" : ""}
+                    </span>
+                  </div>
+                  <div className="domain-dist-bar-bg">
+                    <div
+                      className={`domain-dist-bar-fill${isCurrentTrack ? " domain-dist-bar-active" : ""}`}
+                      style={{ width: `${Math.max(pct, 2)}%` }}
+                    />
+                  </div>
+                  <p className="domain-dist-pct">{pct}% of all teams</p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <TrackChangeSection
+          currentTrack={profile.domain}
+          trackChangeCount={profile.trackChangeCount}
+          trackLocked={profile.trackLocked}
+          availableTracks={[...AVAILABLE_TRACKS]}
+        />
+
         <section className="portal-triple-grid">
           <article className="portal-card">
             <p className="portal-label">Payment Status</p>
@@ -87,7 +144,28 @@ export default async function DashboardPage() {
             <li>Follow all code of conduct and venue guidelines throughout the hackathon.</li>
           </ul>
         </section>
+
+        <section className="portal-card portal-wa-card">
+          <div className="portal-wa-inner">
+            <div>
+              <p className="portal-kicker">Stay Connected</p>
+              <h2 className="mt-3">Join Our WhatsApp Group</h2>
+              <p className="portal-muted mt-2" style={{ fontSize: "0.82rem" }}>
+                Get real-time updates, announcements, and connect with other participants.
+              </p>
+            </div>
+            <a
+              href="https://chat.whatsapp.com/D7uEE3yTIq8DkRp03KOwYp"
+              target="_blank"
+              rel="noreferrer"
+              className="portal-btn-primary portal-wa-btn"
+            >
+              Join WhatsApp Group →
+            </a>
+          </div>
+        </section>
       </main>
     </div>
   );
 }
+

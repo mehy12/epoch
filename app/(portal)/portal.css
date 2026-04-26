@@ -583,3 +583,610 @@
     transform: translateY(0);
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  WhatsApp Card                                                      */
+/* ------------------------------------------------------------------ */
+
+.portal-wa-card {
+  border-color: rgba(37, 211, 102, 0.3);
+  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+}
+
+.portal-wa-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.portal-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-color: #16a34a;
+  background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.22);
+  align-self: flex-start;
+}
+
+.portal-wa-btn:hover {
+  background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
+  color: #fff;
+}
+
+@media (min-width: 640px) {
+  .portal-wa-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .portal-wa-btn {
+    flex-shrink: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Domain Distribution                                                */
+/* ------------------------------------------------------------------ */
+
+.domain-dist-grid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.domain-dist-card {
+  border: 1px solid var(--portal-soft-line);
+  border-radius: 0.2rem;
+  background: linear-gradient(180deg, #fffefb 0%, #fff8ef 100%);
+  padding: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.domain-dist-current {
+  border-color: rgba(180, 83, 9, 0.5);
+  box-shadow: 0 4px 16px rgba(180, 83, 9, 0.12);
+  background: linear-gradient(180deg, #fffdf5 0%, #fff3dc 100%);
+}
+
+.domain-dist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.domain-dist-you-badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(180, 83, 9, 0.35);
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.15);
+  padding: 0.14rem 0.48rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.56rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9a3412;
+}
+
+.domain-dist-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  margin-top: 0.55rem;
+}
+
+.domain-dist-count {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--portal-ink);
+}
+
+.domain-dist-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.domain-dist-bar-bg {
+  margin-top: 0.6rem;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(180, 83, 9, 0.1);
+  overflow: hidden;
+}
+
+.domain-dist-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+  transition: width 0.6s ease;
+}
+
+.domain-dist-bar-active {
+  background: linear-gradient(90deg, #b45309 0%, #9a3412 100%);
+}
+
+.domain-dist-pct {
+  margin-top: 0.35rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  color: #64748b;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 640px) {
+  .domain-dist-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Track Change Section                                               */
+/* ------------------------------------------------------------------ */
+
+.tc-section .tc-info-grid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tc-action {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.tc-action .portal-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tc-disabled-reason {
+  font-size: 0.74rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+.tc-loading-text {
+  font-size: 0.82rem;
+  color: #64748b;
+  animation: tcPulse 1.2s ease-in-out infinite;
+}
+
+.tc-history {
+  border-top: 1px solid var(--portal-soft-line);
+  padding-top: 0.8rem;
+}
+
+.tc-history-list {
+  margin-top: 0.5rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.tc-history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  border: 1px solid var(--portal-soft-line);
+  border-radius: 0.2rem;
+  background: linear-gradient(180deg, #fffefb 0%, #fff8ef 100%);
+  padding: 0.56rem 0.72rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+}
+
+.tc-history-tracks {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tc-arrow {
+  color: #b45309;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Track Change Modal                                                 */
+/* ------------------------------------------------------------------ */
+
+.tc-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  animation: tcFadeIn 200ms ease-out;
+}
+
+.tc-modal {
+  width: min(480px, 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--portal-line);
+  border-radius: 0.35rem;
+  background: linear-gradient(180deg, #ffffff 0%, #fff8eb 100%);
+  box-shadow: 0 24px 56px rgba(15, 23, 42, 0.2), 0 8px 20px rgba(180, 83, 9, 0.12);
+  padding: clamp(1rem, 2.8vw, 1.5rem);
+  animation: tcSlideUp 280ms ease-out;
+}
+
+.tc-modal-header {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.tc-modal-title {
+  margin-top: 0.3rem;
+}
+
+.tc-modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #64748b;
+  padding: 0.3rem;
+  transition: color 0.2s ease;
+}
+
+.tc-modal-close:hover {
+  color: #0f172a;
+}
+
+.tc-modal-form {
+  margin-top: 1.2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.tc-modal-field label {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.tc-select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 1.5rem;
+}
+
+.tc-textarea {
+  resize: vertical;
+  min-height: 70px;
+  border: 1.6px solid rgba(180, 83, 9, 0.58);
+  border-radius: 0.15rem;
+  padding: 0.6rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.tc-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding-top: 0.4rem;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Track Option Cards (Modal)                                         */
+/* ------------------------------------------------------------------ */
+
+.tc-track-options {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.tc-track-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1.5px solid var(--portal-soft-line);
+  border-radius: 0.2rem;
+  background: linear-gradient(180deg, #fffefb 0%, #fff8ef 100%);
+  padding: 0.7rem 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-family: var(--font-mono), monospace;
+}
+
+.tc-track-option:hover {
+  border-color: rgba(180, 83, 9, 0.45);
+  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.08);
+}
+
+.tc-track-option-selected {
+  border-color: #b45309;
+  background: linear-gradient(180deg, #fffdf5 0%, #fff3dc 100%);
+  box-shadow: 0 4px 14px rgba(180, 83, 9, 0.14);
+}
+
+.tc-track-option-name {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--portal-ink);
+}
+
+.tc-track-option-count {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.68rem;
+  color: #64748b;
+}
+
+.tc-track-option-pct {
+  color: #b45309;
+  font-weight: 700;
+}
+
+.tc-track-option-bar {
+  margin-top: 0.35rem;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(180, 83, 9, 0.1);
+  overflow: hidden;
+}
+
+.tc-track-option-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+  transition: width 0.5s ease;
+}
+
+.tc-track-option-selected .tc-track-option-bar-fill {
+  background: linear-gradient(90deg, #b45309 0%, #9a3412 100%);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Domain Counts Mini-view (Track Section)                            */
+/* ------------------------------------------------------------------ */
+
+.tc-domain-counts {
+  border-top: 1px solid var(--portal-soft-line);
+  padding-top: 0.8rem;
+}
+
+.tc-domain-counts-grid {
+  margin-top: 0.5rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.tc-domain-count-item {
+  border: 1px solid var(--portal-soft-line);
+  border-radius: 0.2rem;
+  background: linear-gradient(180deg, #fffefb 0%, #fff8ef 100%);
+  padding: 0.5rem 0.65rem;
+}
+
+.tc-domain-count-current {
+  border-color: rgba(180, 83, 9, 0.45);
+  background: linear-gradient(180deg, #fffdf5 0%, #fff3dc 100%);
+}
+
+.tc-domain-count-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.tc-domain-count-name {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--portal-ink);
+}
+
+.tc-domain-count-badge {
+  display: inline-flex;
+  border: 1px solid rgba(180, 83, 9, 0.35);
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.15);
+  padding: 0.08rem 0.38rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.52rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9a3412;
+}
+
+.tc-domain-count-bar-bg {
+  margin-top: 0.35rem;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(180, 83, 9, 0.1);
+  overflow: hidden;
+}
+
+.tc-domain-count-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+  transition: width 0.5s ease;
+}
+
+.tc-domain-count-bar-active {
+  background: linear-gradient(90deg, #b45309 0%, #9a3412 100%);
+}
+
+.tc-domain-count-num {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.64rem;
+  color: #64748b;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Admin Table                                                        */
+/* ------------------------------------------------------------------ */
+
+.tc-admin-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.tc-admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.tc-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.4rem;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: #b45309;
+  color: #fff;
+  font-size: 0.58rem;
+  font-weight: 800;
+  padding: 0 0.25rem;
+}
+
+.tc-admin-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tc-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+}
+
+.tc-admin-table th {
+  text-align: left;
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #b45309;
+  padding: 0.6rem 0.55rem;
+  border-bottom: 2px solid var(--portal-line);
+  white-space: nowrap;
+}
+
+.tc-admin-table td {
+  padding: 0.65rem 0.55rem;
+  border-bottom: 1px solid var(--portal-soft-line);
+  vertical-align: middle;
+}
+
+.tc-admin-table tbody tr:hover {
+  background: rgba(245, 158, 11, 0.04);
+}
+
+.tc-team-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.tc-team-id {
+  font-size: 0.66rem;
+  color: #64748b;
+  letter-spacing: 0.06em;
+}
+
+.tc-reason-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 200px;
+}
+
+.tc-date-cell {
+  white-space: nowrap;
+  font-size: 0.72rem;
+  color: #475569;
+}
+
+.tc-action-btns {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.tc-action-btn {
+  min-height: 30px !important;
+  padding: 0.3rem 0.6rem !important;
+  font-size: 0.62rem !important;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Responsive overrides                                               */
+/* ------------------------------------------------------------------ */
+
+@media (min-width: 640px) {
+  .tc-section .tc-info-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tc-admin-toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Animations                                                         */
+/* ------------------------------------------------------------------ */
+
+@keyframes tcFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes tcSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tcPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+

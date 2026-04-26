@@ -1,5 +1,7 @@
 export type IdentifierKind = "email" | "phone";
 
+export type TrackChangeStatus = "pending" | "approved" | "rejected";
+
 export interface PortalRecord {
   rowNumber: number;
   timestamp: string;
@@ -18,6 +20,8 @@ export interface PortalRecord {
   pptFileName: string;
   pptDriveUrl: string;
   pptUploadedAt: string;
+  trackChangeCount: number;
+  trackLocked: boolean;
 }
 
 export interface PortalPublicProfile {
@@ -35,6 +39,21 @@ export interface PortalPublicProfile {
   pptFileName: string;
   pptDriveUrl: string;
   pptUploadedAt: string;
+  trackChangeCount: number;
+  trackLocked: boolean;
+}
+
+export interface TrackChangeRequest {
+  requestId: string;
+  teamId: string;
+  teamName: string;
+  currentTrack: string;
+  requestedTrack: string;
+  reason: string;
+  status: TrackChangeStatus;
+  createdAt: string;
+  reviewedBy: string;
+  reviewedAt: string;
 }
 
 export interface PortalSessionPayload {

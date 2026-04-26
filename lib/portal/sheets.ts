@@ -31,7 +31,9 @@ type RecordKey =
   | "pptSubmitted"
   | "pptFileName"
   | "pptDriveUrl"
-  | "pptUploadedAt";
+  | "pptUploadedAt"
+  | "trackChangeCount"
+  | "trackLocked";
 
 const COLUMN_ALIASES: Record<RecordKey, string[]> = {
   timestamp: ["Timestamp"],
@@ -50,6 +52,8 @@ const COLUMN_ALIASES: Record<RecordKey, string[]> = {
   pptFileName: ["PPT File Name"],
   pptDriveUrl: ["PPT Drive URL", "PPT Link"],
   pptUploadedAt: ["PPT Uploaded At"],
+  trackChangeCount: ["Track Change Count"],
+  trackLocked: ["Track Locked"],
 };
 
 interface SheetContext {
@@ -169,6 +173,9 @@ function mapRowToRecord(headers: string[], row: string[], rowNumber: number): Po
   const pptFileName = getCell(row, getColumnIndex(headers, "pptFileName"));
   const pptDriveUrl = getCell(row, getColumnIndex(headers, "pptDriveUrl"));
   const pptUploadedAt = getCell(row, getColumnIndex(headers, "pptUploadedAt"));
+  const trackChangeCountRaw = getCell(row, getColumnIndex(headers, "trackChangeCount"));
+  const trackChangeCount = Number(trackChangeCountRaw) || 0;
+  const trackLocked = toBooleanCell(getCell(row, getColumnIndex(headers, "trackLocked")));
 
   return {
     rowNumber,
@@ -188,6 +195,8 @@ function mapRowToRecord(headers: string[], row: string[], rowNumber: number): Po
     pptFileName,
     pptDriveUrl,
     pptUploadedAt,
+    trackChangeCount,
+    trackLocked,
   };
 }
 
@@ -207,6 +216,8 @@ function formatProfile(record: PortalRecord): PortalPublicProfile {
     pptFileName: record.pptFileName,
     pptDriveUrl: record.pptDriveUrl,
     pptUploadedAt: record.pptUploadedAt,
+    trackChangeCount: record.trackChangeCount,
+    trackLocked: record.trackLocked,
   };
 }
 
@@ -241,7 +252,7 @@ function findByIdentifierInRows(
   return null;
 }
 
-async function updateRowCells(rowNumber: number, updates: Record<string, string>): Promise<void> {
+export async function updateRowCells(rowNumber: number, updates: Record<string, string>): Promise<void> {
   const context = await getSheetContextWithRequiredColumns();
   const sheets = getSheetsClient();
   const { spreadsheetId, sheetName } = getSheetConfig();
@@ -509,4 +520,43 @@ export async function assignTeamIdAfterRegistration(payload: {
   }
 
   return null;
+}
+
+export async function updateTeamDomain(
+  teamId: string,
+  newTrack: string,
+  newTrackChangeCount: number
+): Promise<void> {
+  const context = await getSheetContextWithRequiredColumns();
+  const teamIdCol = getColumnIndex(context.headers, "teamId");
+
+  for (let i = 0; i < context.rows.length; i += 1) {
+    const row = context.rows[i];
+    const rowTeamId = getCell(row, teamIdCol);
+    if (rowTeamId === teamId) {
+      const rowNumber = i + 2;
+      await updateRowCells(rowNumber, {
+        Domain: newTrack,
+        "Track Change Count": String(newTrackChangeCount),
+      });
+      return;
+    }
+  }
+
+  throw new Error(`Team ${teamId} not found in registrations.`);
+}
+
+export async function getTeamCountsByDomain(): Promise<Record<string, number>> {
+  const context = await getSheetContextWithRequiredColumns();
+  const domainCol = getColumnIndex(context.headers, "domain");
+
+  const counts: Record<string, number> = {};
+
+  for (const row of context.rows) {
+    const domain = getCell(row, domainCol);
+    if (!domain) continue;
+    counts[domain] = (counts[domain] || 0) + 1;
+  }
+
+  return counts;
 }

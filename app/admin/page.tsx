@@ -3,6 +3,7 @@
 import { useState } from "react";
 import AdminTrackChangeTable from "@/components/admin/track-change-table";
 import TrackChangeToggle from "@/components/admin/track-change-toggle";
+import RegistrationToggle from "@/components/admin/registration-toggle";
 
 export default function AdminPage() {
   const [passphrase, setPassphrase] = useState("");
@@ -70,7 +71,7 @@ export default function AdminPage() {
         <div className="portal-nav-inner">
           <div className="portal-team-badge">
             <p className="portal-kicker">Admin Panel</p>
-            <h1 className="portal-team-name">Track Changes</h1>
+            <h1 className="portal-team-name">Admin Controls</h1>
           </div>
           <nav className="portal-nav-scroll portal-nav-links">
             <button
@@ -87,6 +88,7 @@ export default function AdminPage() {
       </header>
 
       <main className="portal-main portal-main-stack">
+        <RegistrationToggle passphrase={passphrase} />
         <TrackChangeToggle passphrase={passphrase} />
         <AdminTrackChangeTable passphrase={passphrase} />
       </main>

@@ -144,3 +144,18 @@ export async function isTrackChangeDisabled(): Promise<boolean> {
 export async function setTrackChangeDisabled(disabled: boolean): Promise<void> {
   await setSetting(TRACK_CHANGE_DISABLED_KEY, disabled ? "true" : "false");
 }
+
+/* ------------------------------------------------------------------ */
+/*  Convenience: Registration feature toggle                           */
+/* ------------------------------------------------------------------ */
+
+const REGISTRATION_CLOSED_KEY = "registration_closed";
+
+export async function isRegistrationClosed(): Promise<boolean> {
+  const value = await getSetting(REGISTRATION_CLOSED_KEY);
+  return value === "true";
+}
+
+export async function setRegistrationClosed(closed: boolean): Promise<void> {
+  await setSetting(REGISTRATION_CLOSED_KEY, closed ? "true" : "false");
+}

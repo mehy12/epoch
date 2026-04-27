@@ -10,6 +10,20 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
+  async redirects() {
+    return [
+      {
+        source: '/register',
+        destination: '/registration-closed',
+        permanent: false,
+      },
+      {
+        source: '/register/:path*',
+        destination: '/registration-closed',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

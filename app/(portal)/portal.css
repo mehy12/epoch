@@ -1190,3 +1190,92 @@
   50% { opacity: 0.4; }
 }
 
+/* ------------------------------------------------------------------ */
+/*  Admin Toggle Control                                              */
+/* ------------------------------------------------------------------ */
+
+.tc-toggle-card {
+  border-color: rgba(180, 83, 9, 0.4);
+}
+
+.tc-toggle-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.tc-toggle-info {
+  flex: 1;
+}
+
+.tc-toggle-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1.2rem;
+  background: linear-gradient(180deg, #fffefb 0%, #fff8ef 100%);
+  border: 1px solid var(--portal-soft-line);
+  border-radius: 0.2rem;
+  align-self: flex-start;
+}
+
+.tc-toggle-status {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.tc-toggle-status-on {
+  color: #059669;
+}
+
+.tc-toggle-status-off {
+  color: #b91c1c;
+}
+
+.tc-toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: #cbd5e1;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  outline: none;
+}
+
+.tc-toggle-switch:focus-visible {
+  box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.2);
+}
+
+.tc-toggle-switch-on {
+  background: #10b981;
+}
+
+.tc-toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.tc-toggle-switch-on .tc-toggle-knob {
+  transform: translateX(20px);
+}
+
+@media (min-width: 640px) {
+  .tc-toggle-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+

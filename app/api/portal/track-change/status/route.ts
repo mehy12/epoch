@@ -1,5 +1,6 @@
 import { getSessionFromRequest } from "@/lib/portal/api-auth";
 import { getPortalRecordBySession } from "@/lib/portal/sheets";
+import { isTrackChangeDisabled } from "@/lib/portal/settings";
 import { getRequestsForTeam } from "@/lib/portal/track-changes";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,13 +16,17 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
 
-    const requests = await getRequestsForTeam(record.teamId);
+    const [requests, trackChangeDisabledGlobal] = await Promise.all([
+      getRequestsForTeam(record.teamId),
+      isTrackChangeDisabled(),
+    ]);
 
     return NextResponse.json({
       success: true,
       requests,
       trackChangeCount: record.trackChangeCount,
       trackLocked: record.trackLocked,
+      trackChangeDisabledGlobal,
     });
   } catch (error) {
     const message =

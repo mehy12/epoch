@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import AdminTrackChangeTable from "@/components/admin/track-change-table";
+import TrackChangeToggle from "@/components/admin/track-change-toggle";
 
 export default function AdminPage() {
   const [passphrase, setPassphrase] = useState("");
@@ -86,6 +87,7 @@ export default function AdminPage() {
       </header>
 
       <main className="portal-main portal-main-stack">
+        <TrackChangeToggle passphrase={passphrase} />
         <AdminTrackChangeTable passphrase={passphrase} />
       </main>
     </div>

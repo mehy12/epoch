@@ -32,6 +32,7 @@ export default function TrackChangeSection({
   const [showModal, setShowModal] = useState(false);
   const [domainCounts, setDomainCounts] = useState<Record<string, number>>({});
   const [totalTeams, setTotalTeams] = useState(0);
+  const [globallyDisabled, setGloballyDisabled] = useState(false);
 
   const fetchStatus = useCallback(async () => {
     try {
@@ -40,6 +41,7 @@ export default function TrackChangeSection({
       if (data.success) {
         setRequests(data.requests || []);
         setTrackChangeCount(data.trackChangeCount ?? initialCount);
+        setGloballyDisabled(data.trackChangeDisabledGlobal ?? false);
       }
     } catch {
       // silent
@@ -68,7 +70,7 @@ export default function TrackChangeSection({
 
   const hasPending = requests.some((r) => r.status === "pending");
   const maxReached = trackChangeCount >= 2;
-  const canRequest = !trackLocked && !hasPending && !maxReached;
+  const canRequest = !globallyDisabled && !trackLocked && !hasPending && !maxReached;
 
   function getStatusMessage(): { text: string; tone: "success" | "warning" | "neutral" } | null {
     const latest = requests.length > 0 ? requests[requests.length - 1] : null;
@@ -87,6 +89,7 @@ export default function TrackChangeSection({
   }
 
   function getDisabledReason(): string {
+    if (globallyDisabled) return "Track changes are currently disabled by the organizers.";
     if (trackLocked) return "Track changes have been locked.";
     if (hasPending) return "You have a pending request.";
     if (maxReached) return "Maximum track changes reached (2).";

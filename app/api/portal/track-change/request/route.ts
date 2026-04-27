@@ -1,6 +1,7 @@
 import { getSessionFromRequest } from "@/lib/portal/api-auth";
 import { AVAILABLE_TRACKS, MAX_TRACK_CHANGES } from "@/lib/portal/constants";
 import { getPortalRecordBySession } from "@/lib/portal/sheets";
+import { isTrackChangeDisabled } from "@/lib/portal/settings";
 import {
   createTrackChangeRequest,
   getRequestsForTeam,
@@ -17,6 +18,15 @@ export async function POST(request: NextRequest) {
     const record = await getPortalRecordBySession(session);
     if (!record) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
+    // Check global toggle
+    const globallyDisabled = await isTrackChangeDisabled();
+    if (globallyDisabled) {
+      return NextResponse.json(
+        { error: "Track changes are currently disabled by the organizers." },
+        { status: 403 }
+      );
     }
 
     const body = await request.json();

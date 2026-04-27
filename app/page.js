@@ -143,7 +143,7 @@ function getTimerState() {
     return {
       totalMs: launchTime - now,
       phase: "Starts In",
-        status: "Registrations are open. Slots are first come, first serve. Hackathon begins on May 1 at 11:00 AM.",
+        status: "Registrations are closed. Hackathon begins on May 1 at 11:00 AM.",
     };
   }
 
@@ -180,7 +180,7 @@ export default function HomePage() {
   const [timer, setTimer] = useState({ days: "00", hours: "00", minutes: "00", seconds: "00" });
   const [phase, setPhase] = useState("Starts In");
   const [status, setStatus] = useState(
-    "Registrations are open. Slots are first come, first serve. Hackathon begins on May 1 at 11:00 AM."
+    "Registrations are closed. Hackathon begins on May 1 at 11:00 AM."
   );
   const [openFaq, setOpenFaq] = useState("home-0");
 
@@ -222,7 +222,7 @@ export default function HomePage() {
             Portal Access
           </a>
           <a className="epoch-btn epoch-btn-compact" href="/register">
-            Register Now
+            Registration Closed
           </a>
         </div>
       </header>
@@ -275,7 +275,7 @@ export default function HomePage() {
         </p>
 
         <a className="epoch-btn" href="/register">
-          Register Now
+          Registration Closed
         </a>
 
         <aside className="epoch-coin" aria-hidden="true">
@@ -377,7 +377,7 @@ export default function HomePage() {
         </div>
 
         <a className="epoch-btn" href="/register">
-          Register Now
+          Registration Closed
         </a>
       </section>
 
